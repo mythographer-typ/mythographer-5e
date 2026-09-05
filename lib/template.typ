@@ -101,7 +101,6 @@
           // Format the chapter name
           chapter-name = utils.call-if-fn(self.footer.chapter.style, chapter-name)
 
-
           // Determine if the current page is even or odd
           let is-even-page = calc.rem(here().page(), 2) == 0
 
@@ -136,7 +135,6 @@
   )
 
   // // set par(leading: 0.9pt)
-
 
   // ////////////////////////////////////////////
   // ////////////////////////////////////////////
@@ -421,17 +419,19 @@
 
 #let show-outline(n-cols: 2, do-pagebreak: true, balance-columns: false) = {
   show outline: it => {
-    utils.in-outline.update(true)
+    flex-heading.in-outline.update(true)
     it
-    utils.in-outline.update(false)
+    flex-heading.in-outline.update(false)
   }
 
   if (do-pagebreak == true) {
     pagebreak()
   }
+
   let l-outline = columns(n-cols)[
     #outline()
   ]
+
   if balance-columns {
     utils.columns-balance(
       n-cols: n-cols,
@@ -440,6 +440,7 @@
   } else {
     l-outline
   }
+
   set page(columns: 1)
 }
 
@@ -471,7 +472,6 @@
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
-
 
   set image(height: 100%, width: 100%, fit: "cover")
   set page(background: img, footer: none)

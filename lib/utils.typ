@@ -1,6 +1,3 @@
-#let in-outline = state("in-outline", false)
-#let flex-heading(long, short) = context if in-outline.get() { short } else { long }
-
 #let to-string(it) = {
   if type(it) == str {
     it
@@ -154,8 +151,7 @@
   let textheight = measure(content, width: size.width).height / n-cols
 
   // 2em is the horizontal space taken by the column dividers in the block inset, so we need to add it to the height of the block to make sure the content fits.
-  let corrected-height = (textheight + ((n-cols) * 1em))*correction-factor
-
+  let corrected-height = (textheight + ((n-cols) * 1em)) * correction-factor
 
   let height = measure(content, height: corrected-height, width: size.width).height
   if n-cols == 1 {
@@ -232,7 +228,7 @@
   if body.has("children") {
     let amount-dice = (body.children.at(0).text).split(regex("[d]")).map(int)
     let average = dnd-dice-average(amount-dice.at(0), amount-dice.at(1))
-    let modifier = int(body.children.last().text)  
+    let modifier = int(body.children.last().text)
     let hp-no-sum = average + modifier
     return [#hp-no-sum (#body)]
   }
