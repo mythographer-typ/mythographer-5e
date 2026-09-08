@@ -12,18 +12,18 @@
       #grid(columns: 3)[
         #polygon(
           fill: self.theme.sidebar.edge.fill,
-          (0em, 0em),
+          (0em, 0.5em),
           (1em, 0em),
-          (1em, -0.5em),
+          (1em, 0.5em),
         )
       ][
         #h(1fr)
       ][
         #polygon(
           fill: self.theme.sidebar.edge.fill,
-          (0em, 0em),
+          (0em, 0.5em),
           (-1em, 0em),
-          (-1em, -0.5em),
+          (-1em, 0.5em),
         )
       ]
     ][
