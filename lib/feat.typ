@@ -12,42 +12,22 @@
   set heading(outlined: false, numbering: none)
 
   show heading.where(level: 1): it => {
-    set text(
-      weight: self.feat.headers.level-1.weight,
-      font: self.feat.headers.level-1.font,
-      size: self.feat.headers.level-1.size,
-      fill: self.feat.headers.level-1.fill,
-    )
+    set text(..self.theme.feat.heading.level-1.text)
 
     stack(
       spacing: 3pt,
-      utils.call-if-fn(self.feat.headers.level-1.style, [#it.body]),
-      line(
-        stroke: (
-          paint: self.feat.line.fill,
-          thickness: 1.2pt,
-        ),
-        length: 100%,
-      ),
+      utils.call-if-fn(self.theme.feat.heading.level-1.text-style, [#it.body]),
+      self.theme.feat.decorative-line,
     )
   }
 
   show heading.where(level: 2): it => {
-    set text(
-      weight: self.feat.headers.level-2.weight,
-      font: self.feat.headers.level-2.font,
-      size: self.feat.headers.level-2.size,
-      fill: self.feat.headers.level-2.fill,
-    )
-    utils.call-if-fn(self.feat.headers.level-2.style, [#external.transl("prerequisite"): #it.body])
+    set text(..self.theme.feat.heading.level-2.text)
+    utils.call-if-fn(self.theme.feat.heading.level-2.text-style, [#external.transl("prerequisite"): #it.body])
     linebreak()
   }
 
-  set text(
-    font: self.feat.body.font,
-    size: self.feat.body.size,
-    fill: self.feat.body.fill,
-  )
+  set text(..self.theme.feat.text)
 
   body
 })

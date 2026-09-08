@@ -7,26 +7,30 @@
 
 #let footer-template(self, lr: str, chapter-name: str) = {
   let chap-align = left
+  let number-dx = self.theme.footer.number.dx
+  let number-dy = self.theme.footer.number.dy
+  let chapter-dx = self.theme.footer.chapter.dx
+  let chapter-dy = self.theme.footer.chapter.dy
+
   if lr == "right" {
     chap-align = right
+    number-dx = -number-dx
+    chapter-dx = -chapter-dx
   }
 
-  set image(width: self.footer.image.scale)
+  set image(width: self.theme.footer.image.scale)
 
   align(
     bottom + center,
     [
       #place(
         chap-align + top,
-        dx: self.footer.image.at(lr).number.dx,
-        dy: self.footer.image.at(lr).number.dy,
-        circle(radius: 12pt, stroke: self.footer.image.debug)[
+        dx: number-dx,
+        dy: number-dy,
+        circle(radius: 12pt, stroke: self.theme.footer.number.debug-circle-fill)[
           #align(center + horizon)[
             #text(
-              font: self.footer.body.font,
-              size: self.footer.number.size,
-              fill: self.footer.body.fill,
-              weight: self.footer.number.weight,
+              ..self.theme.footer.number.text,
             )[
               #context counter(page).display("1")
             ]
@@ -35,20 +39,17 @@
       )
       #place(
         chap-align + top,
-        dx: self.footer.image.at(lr).chapter.dx,
-        dy: self.footer.image.at(lr).chapter.dy,
+        dx: chapter-dx,
+        dy: chapter-dy,
         [
           #text(
-            font: self.footer.body.font,
-            size: self.footer.chapter.size,
-            fill: self.footer.body.fill,
-            weight: self.footer.chapter.weight,
+            ..self.theme.footer.chapter.text,
           )[
             #chapter-name
           ]
         ],
       )
-      #self.footer.image.at(lr).image
+      #self.theme.footer.image.at(lr)
     ],
   )
 }
@@ -60,25 +61,25 @@
   ..args,
   body,
 ) = {
-  let args = (config.default-config(),) + args.pos()
+  let args = (config.default-config,) + args.pos()
   let self = utils.merge-dicts(..args)
 
   set document(
     ..(
-      if type(self.info.title) in (str, content) {
-        (title: self.info.title)
+      if type(self.title) in (str, content) {
+        (title: self.title)
       }
     ),
     ..(
-      if type(self.info.author) in (str, array) {
-        (author: self.info.author)
-      } else if type(self.info.author) == content {
-        (author: self.info.author.map(author => author.name))
+      if type(self.author) in (str, array) {
+        (author: self.author)
+      } else if type(self.author) == content {
+        (author: self.author.map(author => author.name))
       }
     ),
     ..(
-      if type(self.info.date) in (datetime,) {
-        (date: self.info.date)
+      if type(self.date) in (datetime,) {
+        (date: self.date)
       }
     ),
   )
@@ -99,7 +100,7 @@
           }
 
           // Format the chapter name
-          chapter-name = utils.call-if-fn(self.footer.chapter.style, chapter-name)
+          chapter-name = utils.call-if-fn(self.theme.footer.chapter.text-style, chapter-name)
 
           // Determine if the current page is even or odd
           let is-even-page = calc.rem(here().page(), 2) == 0
@@ -123,16 +124,17 @@
   external.transl(data: read("l10n/it.ftl"), lang: "it")
   external.transl(data: read("l10n/en.ftl"), lang: "en")
 
-  set text(
-    font: self.global.text.font,
-    size: self.global.text.size,
-    weight: self.global.text.weight,
-    fill: self.global.text.fill,
-    hyphenate: true,
-    tracking: -0.2pt,
-    lang: self.page.lang,
-    // overhang: true
-  )
+  // set text(
+  // font: self.theme.text.font,
+  // size: self.theme.text.size,
+  // weight: self.theme.text.weight,
+  // fill: self.theme.text.fill,
+  // hyphenate: true,
+  // tracking: -0.2pt,
+  // lang: self.page.lang,
+  // overhang: true
+  // )
+  set text(..self.theme.text, lang: self.page.lang)
 
   // // set par(leading: 0.9pt)
 
@@ -147,29 +149,22 @@
     if parts.last() == 0 {
       smallcaps[
         #text(
-          fill: self.headers.level-2.fill,
-          font: self.headers.level-1.font,
-          size: self.headers.level-1.size,
-          weight: self.headers.level-1.weight,
+          ..self.theme.heading.level-1.text,
         )[#it.body #v(-2.3em)]
       ]
       linebreak()
       linebreak()
     } else {
-      pagebreak(weak: true, to: self.headers.level-1.to)
+      pagebreak(weak: true, to: self.theme.heading.level-1.to)
       align(center + horizon)[
         #smallcaps[
           #text(
-            font: self.headers.level-1.font,
-            size: self.headers.level-1.size,
-            stroke: self.headers.level-1.stroke,
-            weight: self.headers.level-1.weight,
-            fill: self.headers.level-1.fill,
+            ..self.theme.heading.level-1.text,
           )[
             #if self.page.show-part {
               [#external.transl("part") #counter(heading).at(it.location()).last() #linebreak() #it.body]
             } else {
-              utils.maybe-apply-style(self.headers.level-1.style, { it.body() })
+              utils.maybe-apply-style(self.theme.heading.level-1.text-style, { it.body() })
             }
           ]
         ]
@@ -187,16 +182,17 @@
 
     align(left)[
       #text(
-        font: self.headers.level-2.font,
-        weight: self.headers.level-2.weight,
-        size: self.headers.level-2.size,
-        stroke: self.headers.level-2.stroke,
-        fill: self.headers.level-2.fill,
+        ..self.theme.heading.level-2.text,
+        // font: self.headers.level-2.font,
+        // weight: self.headers.level-2.weight,
+        // size: self.headers.level-2.size,
+        // stroke: self.headers.level-2.stroke,
+        // fill: self.headers.level-2.fill,
       )[
         #if self.page.show-chapter {
           [#smallcaps[#external.transl("chapter") #counter(heading).at(it.location()).last(): #it.body]]
         } else {
-          utils.maybe-apply-style(self.headers.level-2.style, { it.body })
+          utils.maybe-apply-style(self.theme.heading.level-2.text-style, { it.body })
         }
       ]
     ]
@@ -204,12 +200,9 @@
 
   show heading.where(level: 3): it => {
     text(
-      font: self.headers.level-3.font,
-      size: self.headers.level-3.size,
-      weight: self.headers.level-3.weight,
-      fill: self.headers.level-3.fill,
+      ..self.theme.heading.level-3.text,
     )[
-      #utils.maybe-apply-style(self.headers.level-3.style, { it.body })
+      #utils.maybe-apply-style(self.theme.heading.level-2.text-style, { it.body })
       #linebreak()
     ]
   }
@@ -217,55 +210,35 @@
   show heading.where(level: 4): it => {
     v(-6pt)
     stack(
-      spacing: self.headers.level-4.line.spacing,
+      spacing: self.theme.heading.level-4.spacing,
       text(
-        font: self.headers.level-4.font,
-        size: self.headers.level-4.size,
-        weight: self.headers.level-4.weight,
-        fill: self.headers.level-4.fill,
+        ..self.theme.heading.level-4.text,
       )[
-        #utils.maybe-apply-style(self.headers.level-4.style, { it.body })
+        #utils.maybe-apply-style(self.theme.heading.level-4.text-style, { it.body })
       ],
-      line(
-        stroke: (
-          paint: self.headers.level-4.line.fill,
-          thickness: self.headers.level-4.line.thickness,
-        ),
-        length: 100%,
-      ),
+      self.theme.heading.level-4.decorative-line,
       v(-4pt),
     )
   }
 
   show heading.where(level: 5): it => {
-    text(
-      font: self.headers.level-5.font,
-      size: self.headers.level-5.size,
-      weight: self.headers.level-5.weight,
-      fill: self.headers.level-5.fill,
-    )[
-      #utils.maybe-apply-style(self.headers.level-5.style, { it.body })
+    text(..self.theme.heading.level-4.text)[
+      #utils.maybe-apply-style(self.theme.heading.level-5.text-style, { it.body })
       #linebreak()
     ]
   }
 
   show heading.where(level: 6): it => {
     v(-0.6em, weak: false)
-    set text(
-      font: self.headers.level-6.font,
-      size: self.headers.level-6.size,
-    )
-    utils.maybe-apply-style(self.headers.level-6.style, { it.body + "." + h(1em, weak: true) })
+    set text(..self.theme.heading.level-5.text)
+    utils.maybe-apply-style(self.theme.heading.level-6.text-style, { it.body + "." + h(1em, weak: true) })
   }
 
   show heading.where(level: 7): it => {
     v(-0.6em, weak: false)
     h(1em, weak: false)
-    set text(
-      font: self.headers.level-7.font,
-      size: self.headers.level-7.size,
-    )
-    utils.maybe-apply-style(self.headers.level-7.style, { it.body })
+    set text(..self.theme.heading.level-7.text)
+    utils.maybe-apply-style(self.theme.heading.level-7.text-style, { it.body })
   }
 
   ////////////////////////////////////////////
@@ -283,7 +256,7 @@
   )
 
   let indent-outline(level) = {
-    if self.outline.indent {
+    if self.theme.outline.indent {
       if not self.page.using-parts {
         h(indent.at(str(level - 1)))
       } else {
@@ -294,11 +267,7 @@
 
   let show-lower-outlines(it, outline-text) = {
     (
-      indent-outline(it.level)
-        + outline-text
-        + box(width: 1fr, repeat([#self.outline.repeated-symbol], gap: 0.15em, justify: true))
-        + it.page()
-        + linebreak()
+      indent-outline(it.level) + outline-text + self.theme.outline.repeated-sequence + it.page() + linebreak()
     )
   }
 
@@ -310,27 +279,23 @@
           let part-num = counter(heading).at(it.element.location())
           stack(
             spacing: 3pt,
-            text(
-              font: self.outline.level-1.font,
-              size: self.outline.level-1.size,
-              weight: self.outline.level-1.weight,
-              fill: self.outline.level-1.fill,
-            )[
+            text(..self.theme.outline.heading.level-1.text)[
               #if self.page.show-part {
-                utils.maybe-apply-style(self.outline.level-1.style, {
+                utils.maybe-apply-style(self.theme.outline.heading.level-1.text-style, {
                   [#external.transl("part") #str(part-num.last()): #it.body()]
                 })
               } else {
                 utils.maybe-apply-style(self.outline.level-1.style, { it.body() })
               }
             ],
-            line(
-              stroke: (
-                paint: self.outline.line.fill,
-                thickness: self.outline.line.thickness,
-              ),
-              length: 100%,
-            ),
+            self.theme.outline.decorative-spacer,
+            // line(
+            //   stroke: (
+            //     paint: self.outline.line.fill,
+            //     thickness: self.outline.line.thickness,
+            //   ),
+            //   length: 100%,
+            // ),
           )
         } else if it.level == 2 {
           let ch-num = counter(heading).at(it.element.location())
@@ -338,60 +303,45 @@
           v(12pt, weak: true)
           indent-outline(it.level)
 
-          utils.maybe-apply-style(self.outline.level-2.style, {
-            text(
-              font: self.outline.level-2.font,
-              fill: self.outline.level-2.fill,
-              size: self.outline.level-2.size,
-              weight: self.outline.level-2.weight,
-            )[
+          utils.maybe-apply-style(self.theme.outline.heading.level-2.text-style, {
+            text(..self.theme.outline.heading.level-2.text)[
               #if self.page.show-chapter {
                 [#external.transl("chapter", t: "short") #ch-num.last(): ]
               }
               #it.body()
-              #box(width: 1fr, repeat([#self.outline.repeated-symbol], gap: 0.15em, justify: true))
+              #self.theme.outline.repeated-sequence
+              // #box(width: 1fr, repeat([#self.outline.repeated-symbol], gap: 0.15em, justify: true))
               #it.page()
               #linebreak()
             ]
           })
         } else if it.level == 3 {
           set text(
-            font: self.outline.level-3.font,
-            size: self.outline.level-3.size,
-            weight: self.outline.level-3.weight,
-            fill: self.outline.level-3.fill,
+            ..self.theme.outline.heading.level-3.text,
           )
-          let outline-text = utils.maybe-apply-style(self.outline.level-3.style, { it.body() })
+          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-3.text-style, { it.body() })
           show-lower-outlines(it, outline-text)
         } else if it.level == 4 {
-          let outline-text = utils.maybe-apply-style(self.outline.level-4.style, { it.body() })
+          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-4.text-style, { it.body() })
           show-lower-outlines(it, outline-text)
         } else if it.level == 5 {
-          let outline-text = utils.maybe-apply-style(self.outline.level-5.style, { it.body() })
+          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-5.text-style, { it.body() })
           show-lower-outlines(it, outline-text)
         } else {
           (
-            indent-outline(it.level)
-              + it.body()
-              + box(width: 1fr, repeat([#self.outline.repeated-symbol], gap: 0.15em, justify: true))
-              + it.page()
-              + linebreak()
+            indent-outline(it.level) + it.body() + self.theme.outline.repeated-sequence + it.page() + linebreak()
           )
         }
       ],
     )
   }
 
-  show table.cell.where(y: 0): set text(
-    font: self.table.header.font,
-    weight: self.table.header.weight,
-    fill: self.table.header.fill,
-  )
+  show table.cell.where(y: 0): set text(..self.theme.table.header.text)
   show table.cell: set align(left)
-  show table: set text(font: self.table.body.font, size: self.table.body.size, fill: self.table.body.fill)
+  show table: set text(..self.theme.table.text)
   set table(
-    fill: (none_, y) => if calc.odd(y) { self.table.cell.primary-fill } else {
-      if y > 1 { self.table.cell.secondary-fill }
+    fill: (none_, y) => if calc.odd(y) { self.theme.table.cell.primary.fill } else {
+      if y > 1 { self.theme.table.cell.secondary.fill }
     },
     stroke: none,
   )
@@ -399,17 +349,9 @@
   // FIGURE CONFIG
   set figure.caption(position: top)
   show figure.caption: it => {
-    set text(
-      size: self.table.title.size,
-      font: self.table.title.font,
-      weight: self.table.title.weight,
-    )
+    set text(..self.theme.table.text)
     set align(left)
-    if type(self.table.title.style) == function {
-      (self.table.title.style)(it.body)
-    } else {
-      it.body
-    }
+    utils.maybe-apply-style(self.theme.table.title.text-style, { it.body })
   }
 
   show: core.show-content-with-warp.with(self: self, is-first-slide: false)

@@ -18,19 +18,14 @@
     self = utils.merge-dicts(self, config)
   }
 
-  set text(
-    font: self.spell.font,
-    size: self.spell.size,
-    fill: self.spell.fill,
-    weight: "regular",
-  )
+  set text(..self.theme.spell.text)
 
-  text(fill: self.spell.title.fill)[
-    #smallcaps[#title]
+  text(..self.theme.spell.title.text)[
+    #utils.call-if-fn(self.theme.spell.title.text-style, [#title])
     #linebreak()
   ]
 
-  text(style: "italic")[
+  text(..self.theme.spell.level.text)[
     #level
     #linebreak()
   ]

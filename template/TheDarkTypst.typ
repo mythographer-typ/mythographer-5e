@@ -1,11 +1,11 @@
-#import "@preview/mythographer-5e:0.0.2": *
+#import "@preview/mythographer-5e:0.0.3": *
 
 #show: dnd-template.with(
-  default-config(lang: "en"),
+  default-config,
 )
 
 #title-page(
-  title: [The Dark Typst],
+  title: [The Dark Typstaa],
   authors: (
     (name: [Sa1g], organization: [#link("github.com/sa1g/dnd-typst-template")]),
   ),
@@ -153,6 +153,7 @@
     A `dnd-comment` is a box for minimal highlighting of text. It lacks the ornamentation of `dnd-sidebar`, but it can be broken across columns.
   ]
 
+
   #dnd-readaloud[
     As you approach this module, you sense that the blood and tears of generations have gone into its making. A welcoming warmth embraces you as you type your first words.
   ]
@@ -163,45 +164,54 @@
     The `dnd-sidebar` is used as a sidebar. It does not break across columns and is best paired with a figure environment to float it to a page corner, allowing surrounding text to wrap around it.
   ]
 
+  // Reset to default
+  #show: dnd-template.with(is-first: false)
+
   Colors can also be applied inline. Below is an example:
-  #dnd-sidebar(
-    config: easy-colors(text-fill: white, tertiary: rgb(100, 0, 60)),
-  )[
-    Behold the DndSidebar!
-  ][
 
-    The `dnd-sidebar` is used as a sidebar. It does not break across columns and is best paired with a figure environment to float it to a page corner, allowing surrounding text to wrap around it.
-  ]
-  A future release will introduce more streamlined inline support for text color injection, making the process cleaner and more intuitive.
+  #let tmp_colors = (rgb("#409de0"), rgb("#b8c936"), rgb(100, 0, 60))
+  #for c in tmp_colors {
+    dnd-sidebar(
+      config: (theme: (sidebar: (text: (fill: white), title: (text: (fill: white)), background: (fill: c)))),
+    )[
+      Behold the Color!
+    ][
+      Yes, you can inline apply colors! Have fun :)
+    ]
+  }
+
+  Editor's note: mmm I've just discovered a bug. LOL
+
+  This release is introducing a streamlined inline support for text color injection, you simply need to set the color on the config part you care about. Pre-set geometries, e.g. from your custom template, will be preserved.
 ]
 
-#show: dnd-template.with(
-  is-first: false,
-)
+// #show: dnd-template.with(
+//   is-first: false,
+// )
 
-#dnd-image-heading-part(
-  rect(fill: orange, height: 100%, width: 100%),
-  [Stylized\ Level 1 Heading\ #text(size: 0.5em)[The orange background simulates an image #footnote[It's not a real image to reduce the size of the template.]]#v(7em)],
-  title-unstyled: [Custom Images],
-)
-// #dnd-image-heading-part(image("/img/behind-header-example.jpg"), [Stylized\ Level 1 Heading #v(7em)], title-unstyled: [Custom Images])
+// #dnd-image-heading-part(
+//   rect(fill: orange, height: 100%, width: 100%),
+//   [Stylized\ Level 1 Heading\ #text(size: 0.5em)[The orange background simulates an image #footnote[It's not a real image to reduce the size of the template.]]#v(7em)],
+//   title-unstyled: [Custom Images],
+// )
+// // #dnd-image-heading-part(image("/img/behind-header-example.jpg"), [Stylized\ Level 1 Heading #v(7em)], title-unstyled: [Custom Images])
 
-#columns(2)[
-  #dnd-dropcap[U][sing functions like `dnd-image-heading-section`][ and `dnd-image-heading-part`, you can easily overlay or place images behind your `level-1` (=) and `level-2` (==) headings.
+// #columns(2)[
+//   #dnd-dropcap[U][sing functions like `dnd-image-heading-section`][ and `dnd-image-heading-part`, you can easily overlay or place images behind your `level-1` (=) and `level-2` (==) headings.
 
-    Due to Typst's internal layout behavior, a full-page image requires its own dedicated page. Therefore, the template only supports full-page images for level-1 headings.
-  ]
-]
-#dnd-image-heading-section(rect(fill: red, height: 20em, width: 62em), 2, [A New Beginning'])
-// #dnd-image-heading-section(image("<your-image>"), 2, [A New Beginning'], )
-// #dnd-image-heading-section(image("/img/over-header-example.png", height: 39em), 2, [A New Beginning'], )
-#columns(2)[
-  // Currently, Typst has a #link("https://github.com/typst/typst/issues/4763")[*known bug*] where image heights are not measured correctly. As a result, when placing an image above a heading, you must explicitly specify its dimensions, as shown in the commented example above.
+//     Due to Typst's internal layout behavior, a full-page image requires its own dedicated page. Therefore, the template only supports full-page images for level-1 headings.
+//   ]
+// ]
+// #dnd-image-heading-section(rect(fill: red, height: 20em, width: 62em), 2, [A New Beginning'])
+// // #dnd-image-heading-section(image("<your-image>"), 2, [A New Beginning'], )
+// // #dnd-image-heading-section(image("/img/over-header-example.png", height: 39em), 2, [A New Beginning'], )
+// #columns(2)[
+//   // Currently, Typst has a #link("https://github.com/typst/typst/issues/4763")[*known bug*] where image heights are not measured correctly. As a result, when placing an image above a heading, you must explicitly specify its dimensions, as shown in the commented example above.
 
-  *The red rectangle simulates an image.*
+//   *The red rectangle simulates an image.*
 
-  Note that the chapter counter resets between parts, following the convention used in official D&D publications.
+//   Note that the chapter counter resets between parts, following the convention used in official D&D publications.
 
-  === Image Credits
-  The sample background image is sourced from #link("https://lostandtaken.com/")[Lost and Taken].
-]
+//   === Image Credits
+//   The sample background image is sourced from #link("https://lostandtaken.com/")[Lost and Taken].
+// ]

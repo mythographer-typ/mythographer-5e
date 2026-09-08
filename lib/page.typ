@@ -10,7 +10,7 @@
   date: [],
 ) = core.fn-wrapper(self => context {
   // FRONT PAGE
-  
+
   v(50mm, weak: false)
   align(center, text(18pt, title))
   v(-4mm, weak: false)
@@ -39,5 +39,5 @@
   }
   v(40pt, weak: true)
 
-  align(center + bottom, text(13pt, text(date, font: self.headers.level-1.font, size: 10pt)))
+  align(center + bottom, text(13pt, text(date, font: self.theme.heading.level-1.text.font, size: 10pt)))
 })

@@ -7,25 +7,17 @@
     self = utils.merge-dicts(self, config)
   }
 
-  block(
-    fill: self.commentbox.background.fill,
-    inset: 3pt,
-    outset: 5pt,
-    width: 100%,
-  )[
-    #set text(
-      font: self.commentbox.title.font,
-      size: self.commentbox.title.size,
-      weight: self.commentbox.title.weight,
-      fill: self.commentbox.title.fill,
-    )
-    #utils.call-if-fn(self.commentbox.title.style, [#title])
-    #set text(
-      font: self.commentbox.body.font,
-      size: self.commentbox.body.size,
-      weight: self.commentbox.body.weight,
-      fill: self.commentbox.body.fill,
-    )
+  block(..self.theme.commentbox.background)[
+    #set text(..self.theme.commentbox.title.text)
+    #utils.call-if-fn(self.theme.commentbox.title.text-style, [#title])
+    // #set text(
+    //   font: self.theme.commentbox.body.font,
+    //   size: self.theme.commentbox.body.size,
+    //   weight: self.theme.commentbox.body.weight,
+    //   fill: self.theme.commentbox.body.fill,
+    // )
+    //
+    #set text(..self.theme.commentbox.text)
     #v(-5pt)
     #body
   ]

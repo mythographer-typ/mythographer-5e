@@ -9,27 +9,17 @@
     self = utils.merge-dicts(self, config)
   }
 
-  set text(size: self.readaloud.body.size, font: self.readaloud.body.font)
+  set text(..self.theme.readaloud.text)
 
+  // take from inset (?) todo check
   let corner(alignment, dx-mod: 1, dy-mod: 1) = place(
     alignment,
-    dx: dx-mod * (1em + 2pt),
-    dy: dy-mod * (1em + 2pt),
-    circle(fill: self.readaloud.edge.fill, radius: 2pt),
+    dx: dx-mod * (self.theme.readaloud.corner.dx + self.theme.readaloud.corner.radius),
+    dy: dy-mod * (self.theme.readaloud.corner.dy + self.theme.readaloud.corner.radius),
+    self.theme.readaloud.corner.draw,
   )
 
-  block(
-    width: 100%,
-    inset: 1em,
-    fill: self.readaloud.background.fill.transparentize(self.readaloud.background.transparentize),
-    above: 1em,
-    below: 1em,
-    stroke: (
-      left: 1.2pt + self.readaloud.edge.fill,
-      right: 1.2pt + self.readaloud.edge.fill,
-    ),
-    breakable: true,
-  )[
+  block(..self.theme.readaloud.block)[
     #corner(top + left, dx-mod: -1, dy-mod: -1)
     #corner(top + right, dx-mod: 1, dy-mod: -1)
 

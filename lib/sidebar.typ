@@ -11,7 +11,7 @@
     stack(spacing: 0.3pt)[
       #grid(columns: 3)[
         #polygon(
-          fill: self.sidebar.edge.fill,
+          fill: self.theme.sidebar.edge.fill,
           (0em, 0em),
           (1em, 0em),
           (1em, -0.5em),
@@ -20,7 +20,7 @@
         #h(1fr)
       ][
         #polygon(
-          fill: self.sidebar.edge.fill,
+          fill: self.theme.sidebar.edge.fill,
           (0em, 0em),
           (-1em, 0em),
           (-1em, -0.5em),
@@ -29,10 +29,10 @@
     ][
       #box(
         width: 1fr,
-        fill: self.sidebar.background.fill,
+        fill: self.theme.sidebar.background.fill,
         stroke: (
-          top: 0.65pt + self.sidebar.edge.fill,
-          bottom: 0.65pt + self.sidebar.edge.fill,
+          top: 0.65pt + self.theme.sidebar.edge.fill,
+          bottom: 0.65pt + self.theme.sidebar.edge.fill,
         ),
         inset: (
           top: 5pt,
@@ -42,25 +42,17 @@
         ),
       )[
         #text(
-          size: self.sidebar.title.size,
-          font: self.sidebar.title.font,
-          weight: self.sidebar.title.weight,
-          fill: self.sidebar.title.fill,
-          utils.call-if-fn(self.sidebar.title.style, [#title]),
+          ..self.theme.sidebar.title.text,
+          utils.call-if-fn(self.theme.sidebar.title.text-style, [#title]),
         )
         #v(-5pt)
-        #set text(
-          size: self.sidebar.body.size,
-          font: self.sidebar.body.font,
-          weight: "regular",
-          fill: self.sidebar.body.fill,
-        )
+        #set text(..self.theme.sidebar.text)
         #body
       ]
     ][
       #grid(columns: 3)[
         #polygon(
-          fill: self.sidebar.edge.fill,
+          fill: self.theme.sidebar.edge.fill,
           (0em, 0em),
           (1em, 0em),
           (1em, 0.5em),
@@ -69,13 +61,12 @@
         #h(1fr)
       ][
         #polygon(
-          fill: self.sidebar.edge.fill,
+          fill: self.theme.sidebar.edge.fill,
           (0em, 0em),
           (-1em, 0em),
           (-1em, 0.5em),
         )
       ]
-
     ]
   }
 

@@ -7,11 +7,8 @@
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
-  
+
   external.dropcap(
-    height: 4,
-    justify: true,
-    gap: 4pt,
-    font: self.dropcap.font,
+    ..self.theme.dropcap.text,
   )[#letter #smallcaps[#smalcap] #body]
 })
