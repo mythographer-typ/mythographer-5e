@@ -23,10 +23,8 @@
   if not body.keys().contains("hp") { return }
 
   if body.hp.keys().contains("formula") and body.hp.formula != none {
-    return [#text(fill: self.title.fill, weight: self.title.weight, transl("hit-points")): #utils.dnd-dice(body.hp.formula)]
+    return [#text(fill: self.heading.level-1.text.fill, weight: self.heading.level-1.text.weight, transl("hit-points")): #utils.dnd-dice(body.hp.formula)]
   } else {
-
-    return [#text(fill: self.fill.monster.title, weight: self.font.monster.title.weight, transl("hit-points")): #body.hp.special)]
-
+    return [#text(fill: self.heading.level-1.text.fill, weight: self.heading.level-1.text.weight, transl("hit-points")): #body.hp.special)]
   }
 }

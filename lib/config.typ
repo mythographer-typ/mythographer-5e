@@ -354,30 +354,53 @@
     ),
     monster: (
       // Strong suggestion: if you want to customize shapes on the monster statblock do it in the template. It's relatively complex :(
+      //// TODO: arrived here. TODO: restructure this shit.
       style: 2014,
-      title: (
-        text: (
-          fill: colors.titlered,
-          font: font-family.main,
-          weight: font-weight.bold,
-          size: font-size.Large,
+      heading: (
+        level-1: (
+          text: (
+            fill: colors.titlered,
+            font: font-family.main,
+            weight: font-weight.bold,
+            size: font-size.Large,
+          ),
+          text-style: none,
         ),
-        text-style: none,
-      ),
-      subtitle: (
-        text: (
-          size: font-size.large,
+        level-2: (
+          text: (
+            fill: colors.titlered,
+            size: font-size.large,
+          ),
+          text-style: smallcaps,
+          decorative-line: line(stroke: 0.7pt + colors.titlered, length: 100%),
         ),
-        style: smallcaps,
+        level-3: (
+          text: (
+            fill: colors.titlered,
+            weight: font-weight.bold,
+            size: font-size.small,
+          ),
+          text-style: none,
+        ),
+        level-4: (
+          text: (
+            fill: colors.titlered,
+            weight: font-weight.bold,
+            style: "italic",
+            size: font-size.small,
+          ),
+          text-style: none,
+        ),
       ),
+
       bar: (fill: colors.rulered),
       ribbon: (fill: colors.statblockribbon),
       background: (
         fill: colors.statblockbg.transparentize(40%),
-        text: (
-          font: font-family.secondary,
-          size: font-size.small,
-        ),
+      ),
+      text: (
+        font: font-family.secondary,
+        size: font-size.small,
       ),
     ),
     footer: (

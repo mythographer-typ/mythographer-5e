@@ -20,7 +20,7 @@
   dx: dx-mod * (1em + 2pt),
   dy: dy-mod * (1em + 2pt),
   rect(
-    fill: self.monster.ribbon.fill,
+    fill: self.theme.monster.ribbon.fill,
     stroke: (top: 0.5pt + black, bottom: 0.5pt + black),
     height: 4pt,
     width: 100% + 2em,
@@ -29,48 +29,34 @@
 
 
 #let monster-5e2014(self, body) = {
-  set text(font: self.body.font, size: self.body.size)
+  set text(..self.text)
   // Monster Name
   set heading(outlined: false, numbering: none)
 
   show heading.where(level: 1): it => {
-    set text(
-      size: self.title.size,
-      weight: self.title.weight,
-      font: self.title.font,
-      fill: self.title.fill,
-    )
-    it.body
+    set text(..self.heading.level-1.text)
+    call-if-fn(self.heading.level-1.text-style, it.body)
   }
 
   // Heading w/RedBar (Actions/BonusActions/Reactions/Legendary/Mythic)
   show heading.where(level: 2): it => {
-    set text(size: self.subtitle.size, fill: self.title.fill)
+    set text(..self.heading.level-2.text)
 
-    call-if-fn(self.subtitle.style, it.body)
+    call-if-fn(self.heading.level-2.text-style, it.body)
     v(-12pt)
-    line(stroke: 0.7pt + self.title.fill, length: 100%)
+    self.heading.level-2.decorative-line
   }
 
   // Specs
   show heading.where(level: 3): it => {
-    set text(
-      size: self.body.size,
-      fill: self.title.fill,
-      weight: self.title.weight,
-    )
-    it.body + ":"
+    set text(..self.heading.level-3.text)
+    call-if-fn(self.heading.level-3.text-style, it.body) + ":"
   }
 
   // Spells/Traits/Actions
   show heading.where(level: 4): it => {
-    set text(
-      size: self.body.size,
-      fill: black,
-      weight: "bold",
-      style: "italic",
-    )
-    it.body + "."
+    set text(..self.heading.level-4.text)
+    call-if-fn(self.heading.level-4.text-style, it.body) + "."
   }
 
   // Add short name as it's needed e.g. in `legendary action headers`

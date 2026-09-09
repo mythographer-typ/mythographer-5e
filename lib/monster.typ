@@ -14,12 +14,14 @@
 #import "utils.typ"
 
 #let render-5e2014(self, correction-factor: 1, n-cols: 2, monster) = {
-  let monster = monster-5e2014(self.monster, monster)
+  let monster = monster-5e2014(self.theme.monster, monster)
   monster = process-5etool-tags(monster)
 
   utils.columns-balance(
-    fill: color.transparentize((self.monster.background.fill), self.monster.background.transparency), correction-factor: correction-factor, 
-    n-cols: n-cols)[
+    ..self.theme.monster.background,
+    correction-factor: correction-factor,
+    n-cols: n-cols,
+  )[
     #bar-5e2014(self, top + center, dx-mod: 0, dy-mod: -1)
     #columns(n-cols)[
       #monster
@@ -39,11 +41,11 @@
 
   // Get shortName (get or compile)
 
-  if self.monster.style == 2014 {
-    return render-5e2014(self, correction-factor: correction-factor,  n-cols: columns, body)
+  if self.theme.monster.style == 2014 {
+    return render-5e2014(self, correction-factor: correction-factor, n-cols: columns, body)
   }
 
-  if self.monster.style == 2024 {
+  if self.theme.monster.style == 2024 {
     return render-5e2024(self, correction-factor: correction-factor, n-cols: columns, body)
   }
 })

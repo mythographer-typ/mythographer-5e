@@ -445,13 +445,7 @@
 
   show heading.where(level: 2): it => context {
     align(alignment)[
-      #text(
-        font: self.headers.level-2.font,
-        weight: self.headers.level-2.weight,
-        size: self.headers.level-2.size,
-        stroke: self.headers.level-2.stroke,
-        fill: self.headers.level-2.fill,
-      )[
+      #text(..self.theme.heading.level-2.text)[
         #if self.page.show-chapter {
           [#smallcaps[#external.transl("chapter") #counter(heading).get().last(): #it.body]]
         } else {

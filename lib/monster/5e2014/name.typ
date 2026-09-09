@@ -7,6 +7,6 @@
 #import "../../utils.typ": call-if-fn
 
 #let render-name(self, body) = [
-  #assert(body.keys().contains("name")) 
-  = #call-if-fn(self.title.style, body.name)
+  #assert(body.keys().contains("name"))
+  = #call-if-fn(self.heading.level-1.text-style, body.name)
 ]

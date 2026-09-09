@@ -37,5 +37,5 @@
 #import "../process/speed.typ": process-speed
 
 #let render-speed(self, body) = {
-  return [#text(fill: self.title.fill, weight: self.title.weight, transl("speed")): #process-speed(body)]
+  return [#text(fill: self.heading.level-1.text.fill, weight: self.heading.level-1.text.weight, transl("speed")): #process-speed(body)]
 }

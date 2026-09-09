@@ -15,7 +15,7 @@
 #import "../process/ability-modifier.typ": process-modifiers
 
 #let render-abilities(self, body) = {
-  set text(fill: self.title.fill)
+  set text(self.heading.level-1.text.fill)
   if (
     not body.keys().contains("str")
       or not body.keys().contains("dex")
@@ -32,7 +32,7 @@
       align: center,
       columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       row-gutter: -0.7em,
-      ..ability-modifier-names.map(name => text(fill: self.title.fill, weight: "bold", upper(transl(
+      ..ability-modifier-names.map(name => text(fill: self.heading.level-1.text.fill, weight: "bold", upper(transl(
         name,
         t: "short",
       )))),
