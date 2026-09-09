@@ -202,7 +202,7 @@
         ),
         level-2: (
           text: (
-            fill: colors.darkest,
+            fill: colors.titlered,
             font: font-family.main,
             weight: font-weight.normal,
             size: font-size.normalsize,
