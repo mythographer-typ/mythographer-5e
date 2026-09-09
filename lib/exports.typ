@@ -15,5 +15,5 @@
 #import "monster.typ": dnd-monster
 
 #import "page.typ": title-page
-// #import "utils.typ": columns-balance, dnd-dice, merge-dicts
+#import "utils.typ": columns-balance, dnd-dice, merge-dicts
 #import "config-utils.typ": colors, font-family, font-size, font-weight

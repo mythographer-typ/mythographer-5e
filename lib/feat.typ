@@ -23,7 +23,10 @@
 
   show heading.where(level: 2): it => {
     set text(..self.theme.feat.heading.level-2.text)
-    utils.call-if-fn(self.theme.feat.heading.level-2.text-style, [#external.transl("prerequisite"): #it.body])
+    utils.call-if-fn(
+      self.theme.feat.heading.level-2.text-style,
+      [#external.transl("prerequisite"): #it.body],
+    )
     linebreak()
   }
 

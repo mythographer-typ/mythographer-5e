@@ -1,10 +1,12 @@
-#import "config.typ"
+#import "config.typ": default-config
 #import "core.typ"
 #import "utils.typ"
 
 // 03/02/2026 - full rewrite heavily inspired by https://github.com/yanwenywan/typst-packages/blob/master/wenyuan-campaign/0.1.2/campaign.typ
 
-#let dnd-readaloud(config: (:), body) = core.fn-wrapper(self => {
+#let dnd-readaloud(config: (:), body) = {
+  let self = default-config
+
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -28,4 +30,4 @@
     #corner(bottom + left, dx-mod: -1, dy-mod: 1)
     #corner(bottom + right, dx-mod: 1, dy-mod: 1)
   ]
-})
+}

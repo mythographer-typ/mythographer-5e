@@ -10,13 +10,6 @@
   block(..self.theme.commentbox.background)[
     #set text(..self.theme.commentbox.title.text)
     #utils.call-if-fn(self.theme.commentbox.title.text-style, [#title])
-    // #set text(
-    //   font: self.theme.commentbox.body.font,
-    //   size: self.theme.commentbox.body.size,
-    //   weight: self.theme.commentbox.body.weight,
-    //   fill: self.theme.commentbox.body.fill,
-    // )
-    //
     #set text(..self.theme.commentbox.text)
     #v(-5pt)
     #body
