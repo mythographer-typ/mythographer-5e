@@ -2,6 +2,7 @@
 #import "core.typ"
 #import "utils.typ"
 #import "flex-heading.typ"
+#import "lang.typ"
 
 #import "external.typ"
 
@@ -121,8 +122,10 @@
   ) if is-first
 
   // external.transl(data: eval(external.fluent("l10n/", lang: ("en", self.page.lang))))
-  external.transl(data: read("l10n/it.ftl"), lang: "it")
-  external.transl(data: read("l10n/en.ftl"), lang: "en")
+
+  // external.transl(data: read("l10n/it.ftl"), lang: "it")
+  // external.transl(data: read("l10n/en.ftl"), lang: "en")
+  lang.setup-transl-lang(self.page.lang)
 
   // set text(
   // font: self.theme.text.font,
