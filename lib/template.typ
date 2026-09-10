@@ -6,6 +6,7 @@
 
 #import "external.typ"
 
+/// Note: even page on the left, thus align left, odd page on the right, thus align right.
 #let footer-template(self, lr: str, chapter-name: str) = {
   let chap-align = left
   let number-dx = self.theme.footer.number.dx
@@ -13,7 +14,7 @@
   let chapter-dx = self.theme.footer.chapter.dx
   let chapter-dy = self.theme.footer.chapter.dy
 
-  if lr == "right" {
+  if lr == "left" {
     chap-align = right
     number-dx = -number-dx
     chapter-dx = -chapter-dx
@@ -62,7 +63,7 @@
   ..args,
   body,
 ) = {
-  let args = (config.default-config,) + args.pos()
+  let args = (config.default-config-14,) + args.pos()
   let self = utils.merge-dicts(..args)
 
   set document(
@@ -108,9 +109,9 @@
 
           // Define footer content based on page parity
           let footer-content = if is-even-page {
-            footer-template(self, lr: "right", chapter-name: chapter-name)
-          } else {
             footer-template(self, lr: "left", chapter-name: chapter-name)
+          } else {
+            footer-template(self, lr: "right", chapter-name: chapter-name)
           }
 
           // Render the footer content

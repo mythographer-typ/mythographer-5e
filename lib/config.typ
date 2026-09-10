@@ -3,7 +3,7 @@
 #import "config-utils.typ": colors, font-family, font-size, font-weight
 #import "utils.typ": merge-dicts
 
-#let default-config = (
+#let default-config-14 = (
   title: none,
   subtitle: none,
   author: none,
@@ -446,6 +446,7 @@
 // Is kind of broken, it needs quite a bit of debugging.
 // The thing is that it isn't that useful as users most probably will want to customize the entire config and this won't be used much.
 #let easy-colors(
+  default: 2014,
   primary: red,
   secondary: red,
   tertiary: red,
@@ -456,70 +457,77 @@
   monster-background: colors.statblockbg,
   monster-bar: colors.rulered,
 ) = {
-  return merge-dicts(
-    default-config,
-    (
-      theme: (
-        text: (fill: primary),
-        heading: (
-          level-1: (text: (fill: primary)),
-          level-2: (text: (fill: primary)),
-          level-3: (text: (fill: primary)),
-          level-4: (
-            text: (fill: primary),
-            decorative-line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
-          ),
-          level-5: (text: (fill: primary)),
-        ),
-        outline: (
-          decorative-spacer: box(width: 1fr, line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%)),
+  return {
+    let dc = default-config-14
+    if default == 2024 {
+      dc = default-config-24
+    }
+
+    merge-dicts(
+      dc,
+      (
+        theme: (
+          text: (fill: primary),
           heading: (
             level-1: (text: (fill: primary)),
             level-2: (text: (fill: primary)),
             level-3: (text: (fill: primary)),
+            level-4: (
+              text: (fill: primary),
+              decorative-line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
+            ),
+            level-5: (text: (fill: primary)),
           ),
-        ),
-        feat: (
-          heading: (
-            level-1: (text: (fill: primary)),
-            level-2: (text: (fill: primary)),
+          outline: (
+            decorative-spacer: box(width: 1fr, line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%)),
+            heading: (
+              level-1: (text: (fill: primary)),
+              level-2: (text: (fill: primary)),
+              level-3: (text: (fill: primary)),
+            ),
           ),
-          decorative-line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
-        ),
-        item: (
-          heading: (
-            level-1: (text: (fill: primary)),
+          feat: (
+            heading: (
+              level-1: (text: (fill: primary)),
+              level-2: (text: (fill: primary)),
+            ),
+            decorative-line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
           ),
-        ),
-        area: (
-          heading: (
-            level-1: (text: (fill: primary)),
+          item: (
+            heading: (
+              level-1: (text: (fill: primary)),
+            ),
           ),
-          line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
-        ),
-        readaloud: (
-          block: (stroke: (left: 1.2pt + primary, right: 1.2pt + primary), fill: readaloud-background),
-        ),
-        spell: (
-          title: (text: (fill: primary)),
-        ),
-        monster: (
-          title: (text: (fill: primary)),
-          bar: (fill: monster-background),
-          ribbon: (fill: monster-ribbon),
-          background: (fill: monster-background),
-        ),
-        table: (
-          cell: (primary: (fill: secondary)),
-        ),
-        sidebar: (
-          background: (fill: secondary),
-        ),
-        footer: (number: (text: (fill: tertiary)), chapter: (text: (fill: tertiary))),
-        commentbox: (
-          background: (fill: secondary, inset: 3pt, outset: 5pt, width: 100%),
+          area: (
+            heading: (
+              level-1: (text: (fill: primary)),
+            ),
+            line: line(stroke: (paint: tertiary, thickness: 1.2pt), length: 100%),
+          ),
+          readaloud: (
+            block: (stroke: (left: 1.2pt + primary, right: 1.2pt + primary), fill: readaloud-background),
+          ),
+          spell: (
+            title: (text: (fill: primary)),
+          ),
+          monster: (
+            title: (text: (fill: primary)),
+            bar: (fill: monster-background),
+            ribbon: (fill: monster-ribbon),
+            background: (fill: monster-background),
+          ),
+          table: (
+            cell: (primary: (fill: secondary)),
+          ),
+          sidebar: (
+            background: (fill: secondary),
+          ),
+          footer: (number: (text: (fill: tertiary)), chapter: (text: (fill: tertiary))),
+          commentbox: (
+            background: (fill: secondary, inset: 3pt, outset: 5pt, width: 100%),
+          ),
         ),
       ),
-    ),
-  )
+    )
+  }
 }
