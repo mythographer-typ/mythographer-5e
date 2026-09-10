@@ -322,14 +322,16 @@
       // I'm not making this as customizable as the readaloud. Open an Issue or PR if you want more customization options.
       background: (fill: colors.PhbLightGreen),
       edge: (fill: colors.darkest),
-      title: (
-        text: (
-          font: font-family.secondary,
-          fill: colors.darkest,
-          weight: font-weight.normal,
-          size: font-size.small,
+      heading: (
+        level-1: (
+          text: (
+            font: font-family.secondary,
+            fill: colors.darkest,
+            weight: font-weight.normal,
+            size: font-size.small,
+          ),
+          text-style: smallcaps,
         ),
-        text-style: smallcaps,
       ),
       text: (
         font: font-family.secondary,
