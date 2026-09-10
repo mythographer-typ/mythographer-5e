@@ -411,8 +411,8 @@
     ),
     footer: (
       image: (
-        left: image("../assets/footer/default/l.svg"),
-        right: image("../assets/footer/default/r.svg"),
+        left: image("../assets/footer/default/l.png"),
+        right: image("../assets/footer/default/r.png"),
         scale: 133%,
       ),
       number: (
