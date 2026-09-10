@@ -11,7 +11,7 @@
   page: (
     paper: "us-letter",
     background: image("/assets/paper/default.jpg"),
-    lang: "en",
+    lang: "it",
     show-part: true,
     show-chapter: true,
     using-parts: true,
