@@ -38,7 +38,7 @@
 /// ```
 /// - config (dict):
 /// - body (content):
-/// -> formatted feat
+/// -> formatted feature
 ///
 #let dnd-feat(config: (:), body) = {
   let self = default-config.theme.feat
