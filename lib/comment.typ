@@ -1,17 +1,51 @@
-#import "config.typ"
-#import "core.typ"
+#import "config.typ": default-config
 #import "utils.typ"
 
-#let dnd-comment(config: (:), title, body) = core.fn-wrapper(self => {
+/// Formats comments.
+///
+/// === Usage:
+/// ```typst
+/// #dnd-comment[
+///   = This is a comment box!
+///   A `dnd-comment` is a box for minimal highlighting of text.
+///   It lacks the ornamentation of `dnd-sidebar`, but it can
+///   be broken across columns.
+/// ]
+/// ```
+///
+/// === Config structure:
+/// ```
+/// (
+///   background: (block-fn-arguments): background block style,
+///   heading: (
+///     level-1: (
+///       text: (text-fn-arguments),
+///       text-style: (text-fn-arguments),
+///     ),
+///   ),
+///   text: (text-fn-arguments): main body text style,
+/// )
+/// ```
+/// - config (dict):
+/// - body (content):
+/// -> formatted area
+///
+#let dnd-comment(config: (:), body) = {
+  let self = default-config.theme.commentbox
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
 
-  block(..self.theme.commentbox.background)[
-    #set text(..self.theme.commentbox.title.text)
-    #utils.call-if-fn(self.theme.commentbox.title.text-style, [#title])
-    #set text(..self.theme.commentbox.text)
-    #v(-5pt)
+  set heading(outlined: false, numbering: none)
+
+  show heading.where(level: 1): it => {
+    set text(..self.heading.level-1.text)
+    utils.call-if-fn(self.heading.level-1.text-style, [#it.body])
+    linebreak()
+  }
+
+  block(..self.background)[
+    #set text(..self.text)
     #body
   ]
-})
+}

@@ -225,14 +225,16 @@
         outset: 5pt,
         width: 100%,
       ),
-      title: (
-        text: (
-          font: font-family.secondary,
-          fill: colors.darkest,
-          weight: font-weight.bold,
-          size: font-size.small,
+      heading: (
+        level-1: (
+          text: (
+            font: font-family.secondary,
+            fill: colors.darkest,
+            weight: font-weight.bold,
+            size: font-size.small,
+          ),
+          text-style: smallcaps,
         ),
-        text-style: smallcaps,
       ),
       text: (
         fill: colors.darkest,
