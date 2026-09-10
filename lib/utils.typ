@@ -132,8 +132,6 @@
   }
 }
 
-
-
 /// Top-balanced columns
 ///   many thanks to this angel: https://forum.typst.app/t/how-to-display-the-table-of-contents-in-two-columns-with-an-even-distribution/4514/3
 ///
