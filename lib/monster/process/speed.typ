@@ -32,14 +32,14 @@
 // _speedMode
 // enum:string : "walk", "burrow", "climb", "fly", "swim"
 
-#import "../../external.typ": transl, get
+#import "../../external.typ": get, transl
 
 // // speedVal
 // 1. dict:
 //      number: int
 //      condition: str
 // 2. int
-#let process-speed-val(body) = {
+#let process-speed-val(body) = context {
   let name = body.at(0)
   let speedVal = body.at(1)
 
@@ -64,6 +64,7 @@
     }
     return [#speed ft.#condition]
   }
+
   if condition != [] {
     return get.text([#transl("stype", stype: name, mode: str) #speed ft. #condition])
   }

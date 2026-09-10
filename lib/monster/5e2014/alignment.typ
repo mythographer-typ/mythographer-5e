@@ -28,6 +28,7 @@
 
   // alignmentPrefix (e.g. Typically) "alignmentPrefix": "Typically ",
   // Any is defined by: having "L", "NX", "C", "NY", and the type (evil or good) "E"
+  //
   if "L" in body.alignment and "NX" in body.alignment and "C" in body.alignment and "NY" in body.alignment {
     if "E" in body.alignment {
       alignment = transl("LNXCNYE")
@@ -36,6 +37,14 @@
     } else {
       panic("any alignment can be set to either `Any good alignment` or `And non-good Alignment`")
     }
+  } else if (
+    "NX" in body.alignment
+      and "C" in body.alignment
+      and "G" in body.alignment
+      and "NY" in body.alignment
+      and "E" in body.alignment
+  ) {
+    alignment = [#transl("N")]
   } else if body.alignment.len() == 2 {
     alignment = [#transl(body.alignment.at(0)) #transl(body.alignment.at(1))]
   } else if body.alignment.len() == 1 {

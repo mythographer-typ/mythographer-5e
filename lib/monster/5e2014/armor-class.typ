@@ -16,7 +16,12 @@
 #import "../../external.typ": transl
 
 #let pre-render-ac(self, body) = {
-  // Case 1
+  // Case 1: (int)
+  if type(body) == int {
+    return [#body]
+  }
+
+  // Case 2
   if type(body) == dictionary and body.keys().contains("ac") {
     let ac = str(body.ac)
 
@@ -35,14 +40,9 @@
     return ac
   }
 
-  // Case 2
+  // Case 3:
   if type(body) == dictionary and body.keys().contains("special") {
     return body.special
-  }
-
-  // Case 3
-  if type(body) == str {
-    return [#body]
   }
 }
 

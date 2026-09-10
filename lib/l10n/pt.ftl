@@ -302,6 +302,9 @@ ms = Ataque Mágico Corpo a Corpo
 rs = Ataque Mágico à Distância
 mw = Ataque com Arma Corpo a Corpo
 rw = Ataque com Arma à Distância
+mwrw = Melee or Ranged Weapon Attack
+
+recharge = Recharge
 
 ### TRAITS
 saving-throw = { $t ->

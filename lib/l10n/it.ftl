@@ -302,6 +302,9 @@ ms = Attacco Magico da Mischia
 rs = Attacco Magico a Distanza
 mw = Attacco con Arma da Mischia
 rw = Attacco con Arma a Distanza
+mwrw = Melee or Ranged Weapon Attack
+
+recharge = Ricarica
 
 ### TRAITS
 saving-throw = { $t ->

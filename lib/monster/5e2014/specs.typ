@@ -11,7 +11,7 @@
 #import "../process/condition-immunity.typ"
 #import "../process/proficiency-bonus.typ"
 
-#let render-trait-if-not-none(self, name, body) = {
+#let render-trait-if-not-none(self, name, lb: true, body) = {
   if body == none { return }
 
   let sing-or-plur = "sing"
@@ -19,10 +19,10 @@
     sing-or-plur = "plur"
   }
 
-  return [#text(fill: self.heading.level-1.text.fill, weight: self.heading.level-1.text.weight, transl(name, t: sing-or-plur)): #body.proc #linebreak()]
+  return [#text(fill: self.heading.level-1.text.fill, weight: self.heading.level-1.text.weight, transl(name, t: sing-or-plur)): #body.proc #if lb { linebreak() }]
 }
 
-#let render-specs(self, body) = context [
+#let render-specs(self, body) = context block(above: 0.5em, below: 0.5em)[
   #render-trait-if-not-none(self, "saving-throw", save-throw.process-save(body))
   #render-trait-if-not-none(self, "skill", skill.process-skills(body))
   #render-trait-if-not-none(self, "senses", senses.process-senses(body))
@@ -34,11 +34,9 @@
   #render-trait-if-not-none(self, "immune", immunity.process-immunity(body))
   #render-trait-if-not-none(self, "resist", resistance.process-resistance(body))
   #render-trait-if-not-none(self, "condition-immune", condition-immunity.process-condition-immune(body))
-  #v(-5pt)
-  #grid(columns: (50%, 50%), align: (left + top, right + bottom))[#render-trait-if-not-none(
+  #render-trait-if-not-none(self, "cr", lb: false, challenge-rating.process-cr(body)) #h(1fr) #render-trait-if-not-none(
     self,
-    "cr",
-    challenge-rating.process-cr(body),
-  )][#render-trait-if-not-none(self, "proficiency-bonus", proficiency-bonus.process-proficiency(body))]
-  #v(-5pt)
+    "proficiency-bonus",
+    proficiency-bonus.process-proficiency(body),
+  )
 ]

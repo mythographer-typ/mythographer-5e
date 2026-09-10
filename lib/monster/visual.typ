@@ -9,10 +9,10 @@
   )
 
   let placed-bar = [
-    #v(-0.5em)
+    // #v(-0.5em)
     #triangle-bar
-    #v(-0.5em)
+    // #v(-0.5em)
   ]
 
-  return placed-bar
+  return box(fill: orange, placed-bar)
 }

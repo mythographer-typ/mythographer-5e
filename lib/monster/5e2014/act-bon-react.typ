@@ -6,6 +6,8 @@
 
   let header = none
   let note = none
+
+  let out = none
   // key+"Note"; key+"Header"
 
   if body-keys.contains(key + "Header") and body.at(key + "Header") != none {
@@ -14,34 +16,35 @@
 
   if body-keys.contains(key + "Note") and body.at(key + "Note") != none {
     note = body.at(key + "Note")
+  } else if header != none and note != none {
+    out = [== #transl(key)
+      #header.join(" ")
+      #note.join(" ")
+    ]
+  } else if header != none {
+    out = [== #transl(key)
+      #header.join(" ")
+    ]
+  } else if note != none {
+    out = [== #transl(key)
+      #note.join(" ")
+    ]
+  } else {
+    out = [== #transl(key)]
   }
 
-  if header != none and note != none {
-    return [== #transl(key)
-      #header.join(" ")
-      #note.join(" ")
-    ]
-  }
-  if header != none {
-    return [== #transl(key)
-      #header.join(" ")
-    ]
-  }
-  if note != none {
-    return [== #transl(key)
-      #note.join(" ")
-    ]
-  }
-  return [== #transl(key)]
+  block(above: 0em, below: 0.5em)[#out]
 }
 
 #let render-act-bon-react(self, key, body) = [
   #let processed = process-action(key, body)
 
   #if processed != none {
-    make-action-header-w-line(key, body)
-    processed
-    v(-1em)
+    block(above: 0.5em, below: 0.5em)[
+      #make-action-header-w-line(key, body)
+      #processed
+    ]
+    // v(-1em)
   }
 ]
 
@@ -50,26 +53,27 @@
   let lair = none
 
   let keys = body.keys()
-  if keys.contains("legendaryHeader") and body.legendaryHeader != none {
-    return [#body.legendaryHeader]
-  }
+  // if keys.contains("legendaryHeader") and body.legendaryHeader != none {
+  //   return [#body.legendaryHeader]
+  // }
 
-  if keys.contains("LegendaryActions") and body.LegendaryActions != none {
-    amount = body.LegendaryActions
-  }
+  if keys.contains("legendaryHeader") and body.legendaryHeader == none {
+    if keys.contains("LegendaryActions") and body.LegendaryActions != none {
+      amount = body.LegendaryActions
+    }
 
-  if keys.contains("legendaryActionsLair") and body.legendaryActionsLair != none {
-    lair = body.legendaryActionsLair
-  }
+    if keys.contains("legendaryActionsLair") and body.legendaryActionsLair != none {
+      lair = body.legendaryActionsLair
+    }
 
-  ////
-  if amount == none { amount = 3 }
+    ////
+    if amount == none { amount = 3 }
 
-  if lair != none {
-    return [#transl("legendary-header-lair", amount: amount, lairAmount: lair, shortName: body.shortName)#linebreak()]
-  }else{
-    return [#transl("legendary-header", amount: amount, shortName: body.shortName)#linebreak()]
-
+    if lair != none {
+      return [#transl("legendary-header-lair", amount: amount, lairAmount: lair, shortName: body.shortName)#linebreak()]
+    } else {
+      return [#transl("legendary-header", amount: amount, shortName: body.shortName)#linebreak()]
+    }
   }
 }
 
@@ -88,6 +92,6 @@
     //   [#body.legendaryHeader]
     // }
     processed
-    v(-1em)
+    // v(-1em)
   }
 ]

@@ -42,9 +42,9 @@
   show heading.where(level: 2): it => {
     set text(..self.heading.level-2.text)
 
-    call-if-fn(self.heading.level-2.text-style, it.body)
-    v(-12pt)
-    self.heading.level-2.decorative-line
+    block(breakable: false)[#call-if-fn(self.heading.level-2.text-style, it.body)
+      #v(-12pt)
+      #self.heading.level-2.decorative-line]
   }
 
   // Specs
@@ -71,19 +71,19 @@
     #render-hp(self, body) #linebreak()
     #render-speed(self, body) #linebreak()
     #triangle-bar(self)
-    // ABILITY SCORES
+    // // ABILITY SCORES
     #render-abilities(self, body)
     #triangle-bar(self)
-    // SPECS
+    // // SPECS
     #render-specs(self, body)
     #triangle-bar(self)
-    // TRAITS + SPELLCASTING
+    // // TRAITS + SPELLCASTING
     #render-traits(self, body)
-    // ACTIONS - BONUS - REACTIONS (they have the same structure)
+    // // ACTIONS - BONUS - REACTIONS (they have the same structure)
     #render-act-bon-react(self, "action", body)
     #render-act-bon-react(self, "reaction", body)
     #render-act-bon-react(self, "bonus", body)
-    // // LEGENDARY - very similar to actions. Wrapper to add custom heading.
+    // // // LEGENDARY - very similar to actions. Wrapper to add custom heading.
     #render-legendary-action(self, body)
     #render-act-bon-react(self, "mythic", body)
   ]

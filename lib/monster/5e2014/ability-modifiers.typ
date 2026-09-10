@@ -25,9 +25,10 @@
       or not body.keys().contains("cha")
   ) { return }
 
-  [
-    #v(-4pt)
-    #table(
+  block(
+    above: 0em,
+    below: 0em,
+    table(
       fill: none,
       align: center,
       columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
@@ -37,7 +38,6 @@
         t: "short",
       )))),
       ..process-modifiers(body).map(value => text(value)),
-    )
-    #v(-4pt)
-  ]
+    ),
+  )
 }

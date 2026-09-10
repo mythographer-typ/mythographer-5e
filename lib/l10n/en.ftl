@@ -302,6 +302,10 @@ ms = Magic Melee Attack
 rs = Magic Ranged Attack
 mw = Melee Weapon Attack
 rw = Ranged Weapon Attack
+mwrw = Melee or Ranged Weapon Attack
+
+recharge = Recharge
+
 
 ### TRAITS
 saving-throw = { $t ->
