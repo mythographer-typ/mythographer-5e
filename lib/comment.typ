@@ -28,7 +28,7 @@
 /// ```
 /// - config (dict):
 /// - body (content):
-/// -> formatted area
+/// -> formatted comment
 ///
 #let dnd-comment(config: (:), body) = {
   let self = default-config.theme.commentbox

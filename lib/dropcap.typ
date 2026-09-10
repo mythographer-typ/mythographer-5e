@@ -23,7 +23,7 @@
 /// ```
 /// - config (dict):
 /// - body (content):
-/// -> formatted area
+/// -> formatted dropcap
 ///
 #let dnd-dropcap(config: (:), letter, smalcap, body) = {
   let self = default-config.theme.dropcap
