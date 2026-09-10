@@ -181,13 +181,13 @@
       ),
     ),
     dropcap: (
-      text: (
+      dropcap: (
         height: 4,
         justify: true,
         gap: 4pt,
         font: font-family.initial,
       ),
-      // body-style: smallcaps, // modify `dropcap.typ` to apply this style to the body text following the dropcap
+      first-line-style: smallcaps,
     ),
     area: (
       heading: (

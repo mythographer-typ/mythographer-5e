@@ -7,7 +7,7 @@
 ///
 /// === Usage:
 /// ```typst
-/// #dnd-area(config: (:), body)[
+/// #dnd-area[
 ///   = Area Name
 ///   Area description.
 ///   == Subarea Name
