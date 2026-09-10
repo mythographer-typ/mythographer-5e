@@ -199,6 +199,7 @@
             size: font-size.Large,
           ),
           text-style: smallcaps,
+          numbering: "1",
         ),
         level-2: (
           text: (
@@ -208,13 +209,14 @@
             size: font-size.normalsize,
           ),
           text-style: smallcaps,
+          numbering: "1.a",
         ),
       ),
       text: (
         fill: colors.darkest,
         font: font-family.main,
       ),
-      line: line(stroke: (paint: colors.titlegold, thickness: 1.2pt), length: 100%),
+      decorative-line: line(stroke: (paint: colors.titlegold, thickness: 1.2pt), length: 100%),
     ),
     commentbox: (
       background: (
