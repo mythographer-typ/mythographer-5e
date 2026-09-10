@@ -1,4 +1,4 @@
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 /// Formats comments.
@@ -30,8 +30,8 @@
 /// - body (content):
 /// -> formatted comment
 ///
-#let dnd-comment(config: (:), body) = {
-  let self = default-config.theme.commentbox
+#let dnd-comment(config: (:), body) = core.fn-wrapper(self => {
+  self = self.theme.commentbox
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -48,4 +48,4 @@
     #set text(..self.text)
     #body
   ]
-}
+})

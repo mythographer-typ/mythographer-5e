@@ -14,18 +14,19 @@
   duration,
   body,
 ) = core.fn-wrapper(self => {
+  self = self.theme.spell
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
 
-  set text(..self.theme.spell.text)
+  set text(..self.text)
 
-  text(..self.theme.spell.title.text)[
-    #utils.call-if-fn(self.theme.spell.title.text-style, [#title])
+  text(..self.title.text)[
+    #utils.call-if-fn(self.title.text-style, [#title])
     #linebreak()
   ]
 
-  text(..self.theme.spell.level.text)[
+  text(..self.level.text)[
     #level
     #linebreak()
   ]

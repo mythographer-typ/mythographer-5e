@@ -1,5 +1,5 @@
 #import "external.typ"
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 /// Formats dropcap letter.
@@ -25,8 +25,8 @@
 /// - body (content):
 /// -> formatted dropcap
 ///
-#let dnd-dropcap(config: (:), letter, smalcap, body) = {
-  let self = default-config.theme.dropcap
+#let dnd-dropcap(config: (:), letter, smalcap, body) = core.fn-wrapper(self => {
+  self = self.theme.dropcap
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -34,4 +34,4 @@
   external.dropcap(
     ..self.dropcap,
   )[#letter #utils.call-if-fn(self.first-line-style, smalcap) #body]
-}
+})

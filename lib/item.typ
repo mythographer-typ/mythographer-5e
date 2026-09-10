@@ -1,4 +1,4 @@
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 // WARING: removed `context`
@@ -36,8 +36,8 @@
 /// -> formatted item
 ///
 
-#let dnd-item(config: (:), body) = {
-  let self = default-config.theme.item
+#let dnd-item(config: (:), body) = core.fn-wrapper(self => {
+  self = self.theme.item
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -58,4 +58,4 @@
   set text(..self.text)
 
   body
-}
+})

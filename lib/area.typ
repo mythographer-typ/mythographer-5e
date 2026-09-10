@@ -1,4 +1,4 @@
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 /// Formats a map or dungeon area with automatic area numbering.
@@ -38,8 +38,8 @@
 /// - body (content):
 /// -> formatted area
 ///
-#let dnd-area(config: (:), body) = {
-  let self = default-config.theme.area
+#let dnd-area(config: (:), body) = core.fn-wrapper(self => {
+  self = self.theme.area
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -96,4 +96,4 @@
   }
 
   body
-}
+})

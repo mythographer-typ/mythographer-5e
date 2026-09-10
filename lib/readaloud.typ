@@ -1,4 +1,4 @@
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 // 03/02/2026 - full rewrite heavily inspired by https://github.com/yanwenywan/typst-packages/blob/master/wenyuan-campaign/0.1.2/campaign.typ
@@ -11,7 +11,6 @@
 ///  #dnd-readaloud[
 ///  A read aloud.
 ///  ]
-
 /// ```
 ///
 /// === Config structure:
@@ -31,9 +30,8 @@
 /// - body (content):
 /// -> formatted readlaoud
 ///
-
-#let dnd-readaloud(config: (:), body) = {
-  let self = default-config.theme.readaloud
+#let dnd-readaloud(config: (:), body) = core.fn-wrapper(self => {
+  self = self.theme.readaloud
 
   if config != (:) {
     self = utils.merge-dicts(self, config)
@@ -58,4 +56,4 @@
     #corner(bottom + left, dx-mod: -1, dy-mod: 1)
     #corner(bottom + right, dx-mod: 1, dy-mod: 1)
   ]
-}
+})

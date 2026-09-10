@@ -1,11 +1,11 @@
-#import "config.typ": default-config
+#import "core.typ"
 #import "utils.typ"
 
 #import "external.typ"
 
 // WARNING: removed `context`
 
-/// Formats comments.
+/// Formats features.
 /// Usually you would use `=` once for the prerequsites and `==` for the item name. Then the rest of the text is the description of the feat. No limit on the number of `=` or `==` you can use, but it is recommended to use only one of each for clarity.
 ///
 /// 🔤 (translation): ACTIVE
@@ -40,8 +40,8 @@
 /// - body (content):
 /// -> formatted feature
 ///
-#let dnd-feat(config: (:), body) = {
-  let self = default-config.theme.feat
+#let dnd-feat(config: (:), body) = core.fn-wrapper(self => {
+  self = self.theme.feat
   if config != (:) {
     self = utils.merge-dicts(self, config)
   }
@@ -70,4 +70,4 @@
   set text(..self.text)
 
   body
-}
+})
