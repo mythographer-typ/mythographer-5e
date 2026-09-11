@@ -50,7 +50,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-#import "../../external.typ": transl, get
+#import "../../external.typ": get, transl
 #import "regex.typ"
 
 
@@ -163,7 +163,6 @@
   for (name, value) in body {
     let iter-spells = emph(value.spells.join(", "))
 
-
     if name == "0" {
       // Cantrips
       spells.push([#transl("cantrips"): #iter-spells])
@@ -192,10 +191,8 @@
 
   let spellcasting = body.spellcasting
 
-
   let spells = ()
   for spell-block in spellcasting {
-
     let current-spell = ()
     let keys = spell-block.keys()
 
@@ -203,7 +200,9 @@
 
     // name, header
     current-spell.push([==== #spell-block.name ])
-    if keys.contains("headerEntries") { current-spell.push([#spell-block.headerEntries.join(" ")#linebreak()#v(4pt)]) }else{ current-spell.push([#linebreak()])}
+    if keys.contains("headerEntries") {
+      current-spell.push([#spell-block.headerEntries.join(" ")#linebreak()#v(4pt)])
+    } else { current-spell.push([#linebreak()]) }
 
     // _arrayOfSpell
     if keys.contains("constant") { current-spell.push(show-base-array-of-spell("constant", spell-block.constant)) }
