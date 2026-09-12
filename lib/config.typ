@@ -8,13 +8,13 @@
   subtitle: none,
   author: none,
   date: none,
+  lang: "en",
+  show-part: true,
+  show-chapter: true,
+  using-parts: true,
   page: (
     paper: "us-letter",
     background: image("/assets/paper/default.jpg"),
-    lang: "en",
-    show-part: true,
-    show-chapter: true,
-    using-parts: true,
   ),
   theme: (
     text: (
@@ -327,7 +327,7 @@
           text: (
             font: font-family.secondary,
             fill: colors.darkest,
-            weight: font-weight.normal,
+            weight: font-weight.bold,
             size: font-size.small,
           ),
           text-style: smallcaps,

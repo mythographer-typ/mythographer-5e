@@ -87,15 +87,14 @@
   )
 
   set page(
-    paper: self.page.paper,
-    background: self.page.background,
+    ..self.page,
     footer: context {
       {
         let elements = query(selector(heading.where(level: 2, outlined: true)).before(here()))
 
         if elements.len() > 0 {
           let chapter-name = none
-          if self.page.show-chapter {
+          if self.show-chapter {
             chapter-name = upper([#external.transl("chapter") ] + str(elements.len()) + " | " + elements.last().body)
           } else {
             chapter-name = elements.last().body
@@ -126,7 +125,7 @@
 
   // external.transl(data: read("l10n/it.ftl"), lang: "it")
   // external.transl(data: read("l10n/en.ftl"), lang: "en")
-  lang.setup-transl-lang(self.page.lang)
+  lang.setup-transl-lang(self.lang)
 
   // set text(
   // font: self.theme.text.font,
@@ -138,7 +137,7 @@
   // lang: self.page.lang,
   // overhang: true
   // )
-  set text(..self.theme.text, lang: self.page.lang)
+  set text(..self.theme.text, lang: self.lang)
 
   // // set par(leading: 0.9pt)
 
@@ -165,7 +164,7 @@
           #text(
             ..self.theme.heading.level-1.text,
           )[
-            #if self.page.show-part {
+            #if self.show-part {
               [#external.transl("part") #counter(heading).at(it.location()).last() #linebreak() #it.body]
             } else {
               utils.maybe-apply-style(self.theme.heading.level-1.text-style, { it.body() })
@@ -193,7 +192,7 @@
         // stroke: self.headers.level-2.stroke,
         // fill: self.headers.level-2.fill,
       )[
-        #if self.page.show-chapter {
+        #if self.show-chapter {
           [#smallcaps[#external.transl("chapter") #counter(heading).at(it.location()).last(): #it.body]]
         } else {
           utils.maybe-apply-style(self.theme.heading.level-2.text-style, { it.body })
@@ -226,7 +225,7 @@
   }
 
   show heading.where(level: 5): it => {
-    text(..self.theme.heading.level-4.text)[
+    text(..self.theme.heading.level-5.text)[
       #utils.maybe-apply-style(self.theme.heading.level-5.text-style, { it.body })
       #linebreak()
     ]
@@ -234,7 +233,7 @@
 
   show heading.where(level: 6): it => {
     v(-0.6em, weak: false)
-    set text(..self.theme.heading.level-5.text)
+    set text(..self.theme.heading.level-6.text)
     utils.maybe-apply-style(self.theme.heading.level-6.text-style, { it.body + "." + h(1em, weak: true) })
   }
 
@@ -261,7 +260,7 @@
 
   let indent-outline(level) = {
     if self.theme.outline.indent {
-      if not self.page.using-parts {
+      if not self.using-parts {
         h(indent.at(str(level - 1)))
       } else {
         h(indent.at(str(level)))
@@ -284,12 +283,12 @@
           stack(
             spacing: 3pt,
             text(..self.theme.outline.heading.level-1.text)[
-              #if self.page.show-part {
+              #if self.show-part {
                 utils.maybe-apply-style(self.theme.outline.heading.level-1.text-style, {
                   [#external.transl("part") #str(part-num.last()): #it.body()]
                 })
               } else {
-                utils.maybe-apply-style(self.outline.level-1.style, { it.body() })
+                utils.maybe-apply-style(self.theme.outline.heading.level-1.text-style, { it.body() })
               }
             ],
             self.theme.outline.decorative-spacer,
@@ -309,7 +308,7 @@
 
           utils.maybe-apply-style(self.theme.outline.heading.level-2.text-style, {
             text(..self.theme.outline.heading.level-2.text)[
-              #if self.page.show-chapter {
+              #if self.show-chapter {
                 [#external.transl("chapter", t: "short") #ch-num.last(): ]
               }
               #it.body()
@@ -450,7 +449,7 @@
   show heading.where(level: 2): it => context {
     align(alignment)[
       #text(..self.theme.heading.level-2.text)[
-        #if self.page.show-chapter {
+        #if self.show-chapter {
           [#smallcaps[#external.transl("chapter") #counter(heading).get().last(): #it.body]]
         } else {
           it.body
