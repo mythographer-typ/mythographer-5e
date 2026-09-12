@@ -4,6 +4,8 @@
 #import "flex-heading.typ"
 #import "lang.typ"
 
+#import "heading.typ": setup-heading-rules
+
 #import "external.typ"
 
 /// Note: even page on the left, thus align left, odd page on the right, thus align right.
@@ -121,129 +123,14 @@
     footer-descent: -100pt,
   ) if is-first
 
-  // external.transl(data: eval(external.fluent("l10n/", lang: ("en", self.page.lang))))
-
-  // external.transl(data: read("l10n/it.ftl"), lang: "it")
-  // external.transl(data: read("l10n/en.ftl"), lang: "en")
   lang.setup-transl-lang(self.lang)
-
-  // set text(
-  // font: self.theme.text.font,
-  // size: self.theme.text.size,
-  // weight: self.theme.text.weight,
-  // fill: self.theme.text.fill,
-  // hyphenate: true,
-  // tracking: -0.2pt,
-  // lang: self.page.lang,
-  // overhang: true
-  // )
   set text(..self.theme.text, lang: self.lang)
-
-  // // set par(leading: 0.9pt)
 
   // ////////////////////////////////////////////
   // ////////////////////////////////////////////
   // // HEADERS
-
   set heading(numbering: "1.")
-  show heading.where(level: 1): it => {
-    let parts = counter(heading).get()
-
-    if parts.last() == 0 {
-      smallcaps[
-        #text(
-          ..self.theme.heading.level-1.text,
-        )[#it.body #v(-2.3em)]
-      ]
-      linebreak()
-      linebreak()
-    } else {
-      pagebreak(weak: true, to: self.theme.heading.level-1.to)
-      align(center + horizon)[
-        #smallcaps[
-          #text(
-            ..self.theme.heading.level-1.text,
-          )[
-            #if self.show-part {
-              [#external.transl("part") #counter(heading).at(it.location()).last() #linebreak() #it.body]
-            } else {
-              utils.maybe-apply-style(self.theme.heading.level-1.text-style, { it.body() })
-            }
-          ]
-        ]
-      ]
-    }
-  }
-
-  show heading.where(level: 2): it => {
-    if (
-      it.fields().keys().contains("label") and it.label != "dnd-image-heading-section"
-        or not it.fields().keys().contains("label")
-    ) {
-      pagebreak()
-    }
-
-    align(left)[
-      #text(
-        ..self.theme.heading.level-2.text,
-        // font: self.headers.level-2.font,
-        // weight: self.headers.level-2.weight,
-        // size: self.headers.level-2.size,
-        // stroke: self.headers.level-2.stroke,
-        // fill: self.headers.level-2.fill,
-      )[
-        #if self.show-chapter {
-          [#smallcaps[#external.transl("chapter") #counter(heading).at(it.location()).last(): #it.body]]
-        } else {
-          utils.maybe-apply-style(self.theme.heading.level-2.text-style, { it.body })
-        }
-      ]
-    ]
-  }
-
-  show heading.where(level: 3): it => {
-    text(
-      ..self.theme.heading.level-3.text,
-    )[
-      #utils.maybe-apply-style(self.theme.heading.level-2.text-style, { it.body })
-      #linebreak()
-    ]
-  }
-
-  show heading.where(level: 4): it => {
-    v(-6pt)
-    stack(
-      spacing: self.theme.heading.level-4.spacing,
-      text(
-        ..self.theme.heading.level-4.text,
-      )[
-        #utils.maybe-apply-style(self.theme.heading.level-4.text-style, { it.body })
-      ],
-      self.theme.heading.level-4.decorative-line,
-      v(-4pt),
-    )
-  }
-
-  show heading.where(level: 5): it => {
-    text(..self.theme.heading.level-5.text)[
-      #utils.maybe-apply-style(self.theme.heading.level-5.text-style, { it.body })
-      #linebreak()
-    ]
-  }
-
-  show heading.where(level: 6): it => {
-    v(-0.6em, weak: false)
-    set text(..self.theme.heading.level-6.text)
-    utils.maybe-apply-style(self.theme.heading.level-6.text-style, { it.body + "." + h(1em, weak: true) })
-  }
-
-  show heading.where(level: 7): it => {
-    v(-0.6em, weak: false)
-    h(1em, weak: false)
-    set text(..self.theme.heading.level-7.text)
-    utils.maybe-apply-style(self.theme.heading.level-7.text-style, { it.body })
-  }
-
+  show: body => setup-heading-rules(self, body)
   ////////////////////////////////////////////
   ////////////////////////////////////////////
   /// OUTLINE
@@ -260,7 +147,7 @@
 
   let indent-outline(level) = {
     if self.theme.outline.indent {
-      if not self.using-parts {
+      if not self.use-part {
         h(indent.at(str(level - 1)))
       } else {
         h(indent.at(str(level)))
