@@ -1,6 +1,4 @@
-#import "template.typ": (
-  dnd-image-heading-part, dnd-image-heading-section, dnd-par, dnd-subpar, dnd-template, show-outline,
-)
+#import "template.typ": dnd-image-heading-part, dnd-image-heading-section, dnd-template, show-outline
 #import "utils/flex-heading.typ": flex-heading
 #import "config.typ": default-config-14, easy-colors
 

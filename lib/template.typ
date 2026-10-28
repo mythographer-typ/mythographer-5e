@@ -88,18 +88,6 @@
   set page(columns: 1)
 }
 
-
-#let dnd-par(
-  config: (:),
-  body,
-) = core.fn-wrapper(self => {
-  [====== #body]
-})
-
-#let dnd-subpar(body) = core.fn-wrapper(self => {
-  [======= #body]
-})
-
 #let dnd-image-page(config: (:), img) = core.fn-wrapper(self => {
   panic("not implemented yet")
   if config != (:) {
