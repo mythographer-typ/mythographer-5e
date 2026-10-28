@@ -1,5 +1,5 @@
-#import "external.typ"
-#import "utils.typ"
+#import "../external.typ"
+#import "../utils.typ"
 
 #let rule-level-1-heading(self, it) = {
   let parts = counter(heading).get()

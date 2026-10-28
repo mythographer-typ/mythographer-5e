@@ -4,59 +4,13 @@
 #import "flex-heading.typ"
 #import "lang.typ"
 
-#import "heading.typ": setup-heading-rules
-
+#import "page/heading.typ": setup-heading-rules
+#import "page/table.typ": setup-table-rules
+#import "page/figure.typ": setup-figure-rules
+#import "page/outline.typ": setup-outline-rules
+#import "page/footer.typ": setup-footer-rules
 #import "external.typ"
 
-/// Note: even page on the left, thus align left, odd page on the right, thus align right.
-#let footer-template(self, lr: str, chapter-name: str) = {
-  let chap-align = left
-  let number-dx = self.theme.footer.number.dx
-  let number-dy = self.theme.footer.number.dy
-  let chapter-dx = self.theme.footer.chapter.dx
-  let chapter-dy = self.theme.footer.chapter.dy
-
-  if lr == "left" {
-    chap-align = right
-    number-dx = -number-dx
-    chapter-dx = -chapter-dx
-  }
-
-  set image(width: self.theme.footer.image.scale)
-
-  align(
-    bottom + center,
-    [
-      #place(
-        chap-align + top,
-        dx: number-dx,
-        dy: number-dy,
-        circle(radius: 12pt, stroke: self.theme.footer.number.debug-circle-fill)[
-          #align(center + horizon)[
-            #text(
-              ..self.theme.footer.number.text,
-            )[
-              #context counter(page).display("1")
-            ]
-          ]
-        ],
-      )
-      #place(
-        chap-align + top,
-        dx: chapter-dx,
-        dy: chapter-dy,
-        [
-          #text(
-            ..self.theme.footer.chapter.text,
-          )[
-            #chapter-name
-          ]
-        ],
-      )
-      #self.theme.footer.image.at(lr)
-    ],
-  )
-}
 
 
 #let dnd-template(
@@ -90,159 +44,18 @@
 
   set page(
     ..self.page,
-    footer: context {
-      {
-        let elements = query(selector(heading.where(level: 2, outlined: true)).before(here()))
-
-        if elements.len() > 0 {
-          let chapter-name = none
-          if self.show-chapter {
-            chapter-name = upper([#external.transl("chapter") ] + str(elements.len()) + " | " + elements.last().body)
-          } else {
-            chapter-name = elements.last().body
-          }
-
-          // Format the chapter name
-          chapter-name = utils.call-if-fn(self.theme.footer.chapter.text-style, chapter-name)
-
-          // Determine if the current page is even or odd
-          let is-even-page = calc.rem(here().page(), 2) == 0
-
-          // Define footer content based on page parity
-          let footer-content = if is-even-page {
-            footer-template(self, lr: "left", chapter-name: chapter-name)
-          } else {
-            footer-template(self, lr: "right", chapter-name: chapter-name)
-          }
-
-          // Render the footer content
-          footer-content
-        }
-      }
-    },
+    footer: setup-footer-rules(self, body),
     footer-descent: -100pt,
   ) if is-first
 
   lang.setup-transl-lang(self.lang)
   set text(..self.theme.text, lang: self.lang)
 
-  // ////////////////////////////////////////////
-  // ////////////////////////////////////////////
-  // // HEADERS
   set heading(numbering: "1.")
   show: body => setup-heading-rules(self, body)
-  ////////////////////////////////////////////
-  ////////////////////////////////////////////
-  /// OUTLINE
-
-  let indent = (
-    "1": 0em,
-    "2": 1em,
-    "3": 2em,
-    "4": 3em,
-    "5": 4em,
-    "6": 5em,
-    "7": 6em,
-  )
-
-  let indent-outline(level) = {
-    if self.theme.outline.indent {
-      if not self.use-part {
-        h(indent.at(str(level - 1)))
-      } else {
-        h(indent.at(str(level)))
-      }
-    }
-  }
-
-  let show-lower-outlines(it, outline-text) = {
-    (
-      indent-outline(it.level) + outline-text + self.theme.outline.repeated-sequence + it.page() + linebreak()
-    )
-  }
-
-  show outline.entry: it => {
-    link(
-      it.element.location(),
-      [
-        #if it.level == 1 {
-          let part-num = counter(heading).at(it.element.location())
-          stack(
-            spacing: 3pt,
-            text(..self.theme.outline.heading.level-1.text)[
-              #if self.show-part {
-                utils.maybe-apply-style(self.theme.outline.heading.level-1.text-style, {
-                  [#external.transl("part") #str(part-num.last()): #it.body()]
-                })
-              } else {
-                utils.maybe-apply-style(self.theme.outline.heading.level-1.text-style, { it.body() })
-              }
-            ],
-            self.theme.outline.decorative-spacer,
-            // line(
-            //   stroke: (
-            //     paint: self.outline.line.fill,
-            //     thickness: self.outline.line.thickness,
-            //   ),
-            //   length: 100%,
-            // ),
-          )
-        } else if it.level == 2 {
-          let ch-num = counter(heading).at(it.element.location())
-
-          v(12pt, weak: true)
-          indent-outline(it.level)
-
-          utils.maybe-apply-style(self.theme.outline.heading.level-2.text-style, {
-            text(..self.theme.outline.heading.level-2.text)[
-              #if self.show-chapter {
-                [#external.transl("chapter", t: "short") #ch-num.last(): ]
-              }
-              #it.body()
-              #self.theme.outline.repeated-sequence
-              // #box(width: 1fr, repeat([#self.outline.repeated-symbol], gap: 0.15em, justify: true))
-              #it.page()
-              #linebreak()
-            ]
-          })
-        } else if it.level == 3 {
-          set text(
-            ..self.theme.outline.heading.level-3.text,
-          )
-          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-3.text-style, { it.body() })
-          show-lower-outlines(it, outline-text)
-        } else if it.level == 4 {
-          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-4.text-style, { it.body() })
-          show-lower-outlines(it, outline-text)
-        } else if it.level == 5 {
-          let outline-text = utils.maybe-apply-style(self.theme.outline.heading.level-5.text-style, { it.body() })
-          show-lower-outlines(it, outline-text)
-        } else {
-          (
-            indent-outline(it.level) + it.body() + self.theme.outline.repeated-sequence + it.page() + linebreak()
-          )
-        }
-      ],
-    )
-  }
-
-  show table.cell.where(y: 0): set text(..self.theme.table.header.text)
-  show table.cell: set align(left)
-  show table: set text(..self.theme.table.text)
-  set table(
-    fill: (none_, y) => if calc.odd(y) { self.theme.table.cell.primary.fill } else {
-      if y > 1 { self.theme.table.cell.secondary.fill }
-    },
-    stroke: none,
-  )
-
-  // FIGURE CONFIG
-  set figure.caption(position: top)
-  show figure.caption: it => {
-    set text(..self.theme.table.text)
-    set align(left)
-    utils.maybe-apply-style(self.theme.table.title.text-style, { it.body })
-  }
+  show: body => setup-outline-rules(self, body)
+  show: body => setup-table-rules(self, body)
+  show: body => setup-figure-rules(self, body)
 
   show: core.show-content-with-warp.with(self: self, is-first-slide: false)
 
@@ -275,6 +88,7 @@
 
   set page(columns: 1)
 }
+
 
 #let dnd-par(
   config: (:),
