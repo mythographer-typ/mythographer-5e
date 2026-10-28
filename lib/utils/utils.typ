@@ -176,64 +176,46 @@
   return average
 }
 
-/// Calculates the average of the given dice expression and returns a text with the average and the original expression, e.g. "13 (3d8 + 3)".
+
+#let format-dice(amount, die, modifier, symbol) = {
+  let average = dnd-dice-average(amount, die)
+  let value = if symbol == "-" { average - modifier } else { average + modifier }
+  let expr = if modifier == 0 {
+    [#amount\d#die]
+  } else {
+    [#amount\d#die #symbol #modifier]
+  }
+  [#value (#expr)]
+}
+
+/// Calculates the average result of a dice expression and returns the average
+/// followed by the normalized expression, e.g. `13 (3d8 + 3)`.
 ///
-/// - body: Dice formatted as either:
-///       - [3d8]
-///       - [3d8+3]
-///       - [3d8 + 3]
-///       - the same as strings, e.g. "3d8", "3d8+3", "3d8 + 3"
-///
-/// -> e.g. [16 (3d8 + 3)] or [13 (3d8)] or none if the expression is invalid or somehow the assertion fails.
+/// - body: Dice expression as content or string, in one of these forms:
+///   - `"3d8"`       → average of a single die type
+///   - `"3d8+3"`     → with positive modifier
+///   - `"3d8 - 3"`   → with negative modifier (spaces optional)
+///   - Content blocks work too, e.g. `[3d8 + 3]`, but a literal `-` must be
+///     escaped as `\-` inside content, because `[...]` is markup mode.
+/// - returns: `[13 (3d8 + 3)]` on success, or `none` if the expression is
+///   invalid or the internal assertion fails.
 #let dnd-dice(body) = {
   assert(type(body) == str or body.has("children") or body.has("text"))
 
-  // Case "3d8" and "3d8+3"
-  if type(body) == str {
-    // panic()
-
-    let d-form = ""
-    let modifier = 0
-    if body.contains("+") {
-      let parts = body.split(regex("[+]"))
-      d-form = parts.at(0).trim()
-      modifier = int(parts.at(1).trim())
-    } else {
-      d-form = body.trim()
-    }
-    let amount-dice = d-form.split(regex("[d]")).map(int)
-    let average = dnd-dice-average(amount-dice.at(0), amount-dice.at(1))
-    let hp-no-sum = average + modifier
-
-    return [#hp-no-sum (#body)]
+  if type(body) == content {
+    body = to-string(body)
   }
 
-  // Case [3d8]
-  if body.has("text") {
-    if body.text.contains("+") {
-      let parts = body.text.split(regex("[+]")).map(str.trim)
-      let amount-dice = parts.at(0).split(regex("[d]")).map(int)
-      let average = dnd-dice-average(amount-dice.at(0), amount-dice.at(1))
-      let modifier = int(parts.at(1))
-      let hp-no-sum = average + modifier
-      return [#hp-no-sum (#body)]
-    } else {
-      let amount-dice = body.text.split(regex("[d]")).map(int)
-      let average = dnd-dice-average(amount-dice.at(0), amount-dice.at(1))
-      return [#average (#body)]
-    }
-  }
+  let re = regex("^\s*(\d+)?\s*d\s*(\d+)\s*([+-])?\s*(\d+)?")
+  let m = body.match(re)
+  if m == none { return none }
 
-  // Case [3d8 + 3]
-  if body.has("children") {
-    let amount-dice = (body.children.at(0).text).split(regex("[d]")).map(int)
-    let average = dnd-dice-average(amount-dice.at(0), amount-dice.at(1))
-    let modifier = int(body.children.last().text)
-    let hp-no-sum = average + modifier
-    return [#hp-no-sum (#body)]
-  }
+  let multiplier = if m.captures.at(0) != none { int(m.captures.at(0)) } else { 1 }
+  let dice = int(m.captures.at(1))
+  let symbol = if m.captures.at(2) != none { m.captures.at(2) } else { "+" }
+  let modifier = if m.captures.at(3) != none { int(m.captures.at(3)) } else { 0 }
 
-  return none
+  return format-dice(multiplier, dice, modifier, symbol)
 }
 
 #let show-outline(n-cols: 2, do-pagebreak: true, balance-columns: false) = {

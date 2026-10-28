@@ -8,8 +8,10 @@
   hit: regex("\{@hit\s+(\d+)\}"),
   h: regex("\{@h\}"),
   atk: regex("\{@atk [^}]+}"), // mw: melee weapon, rw: ranged weapon, ms: melee spell, rs: ranged spell. mw,rs is managed by the regex-5e.atk regex
-  dice: regex("(?:\d+\s*\()?\{@dice\s+([^}]+)\}\)?"),
-  dice-body: regex("\d+d\d+\s*(?:\+\s*\d+)?"),
+  // dice: regex("(?:\d+\s*\()?\{@dice\s+([^}]+)\}\)?"),
+  dice: regex("\\{@dice\\s+(\\d*)\\s*d\\s*(\\d+)(?:\\s*([+-])\\s*(\\d+))?\\s*\\}"),
+
+  dice-body: regex("\\d*\\s*d\\s*\\d+(?:\\s*[+-]\\s*\\d+)?"),
   dmg: regex("(?:\d+\s*\()?\{@damage\s+([^}]+)\}\)?"),
   spell: regex("\{@spell [^}]+}"), // {@spell <name>}
   item: regex("\{@item [^|}]+(?:|[^}]+)?}"), // {@item <name>} or {@item <name>|<reference>} )
