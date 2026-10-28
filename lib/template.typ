@@ -1,17 +1,16 @@
 #import "config.typ"
-#import "core.typ"
-#import "utils.typ"
-#import "flex-heading.typ"
-#import "lang.typ"
+#import "utils/core.typ"
+#import "utils/utils.typ"
+#import "utils/flex-heading.typ"
+#import "utils/lang.typ"
 
-#import "page/heading.typ": setup-heading-rules
-#import "page/table.typ": setup-table-rules
-#import "page/figure.typ": setup-figure-rules
-#import "page/outline.typ": setup-outline-rules
-#import "page/footer.typ": setup-footer-rules
+#import "template/heading.typ": setup-heading-rules
+#import "template/table.typ": setup-table-rules
+#import "template/figure.typ": setup-figure-rules
+#import "template/outline.typ": setup-outline-rules
+#import "template/footer.typ": setup-footer-rules
+
 #import "external.typ"
-
-
 
 #let dnd-template(
   is-first: true,

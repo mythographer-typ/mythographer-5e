@@ -1,7 +1,7 @@
 
 // use keys like text, layout (align, inset, etc,) style (font, size, fill), align, pure inset, etc.
-#import "config-utils.typ": colors, font-family, font-size, font-weight
-#import "utils.typ": merge-dicts
+#import "utils/config-utils.typ": colors, font-family, font-size, font-weight
+#import "utils/utils.typ": merge-dicts
 
 #let default-config-14 = (
   title: none,
