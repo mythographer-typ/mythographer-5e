@@ -1,3 +1,5 @@
+#import "flex-heading.typ"
+
 #let to-string(it) = {
   if type(it) == str {
     it
@@ -232,4 +234,31 @@
   }
 
   return none
+}
+
+#let show-outline(n-cols: 2, do-pagebreak: true, balance-columns: false) = {
+  show outline: it => {
+    flex-heading.in-outline.update(true)
+    it
+    flex-heading.in-outline.update(false)
+  }
+
+  if (do-pagebreak == true) {
+    pagebreak()
+  }
+
+  let l-outline = columns(n-cols)[
+    #outline()
+  ]
+
+  if balance-columns {
+    utils.columns-balance(
+      n-cols: n-cols,
+      l-outline,
+    )
+  } else {
+    l-outline
+  }
+
+  set page(columns: 1)
 }
