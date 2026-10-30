@@ -246,8 +246,15 @@ E = Evil
 U = Unaligned
 A = Any Alignment
 
+CGNYE = Any Chaotic Alignment    	
+LGNYE = Any Lawful Alignment
+NXGNYE = Any Neutral Alignment
+NXCGNYE = Any Non-Lawful Alignment
+LNXGNYE = Any Non-Chaotic Alignment
 LNXCNYE = Any Non-Good Alignment
-LNXCNYG = Any Good Alignment
+LNXCG = Any Good Alignment
+LNXCGNY = Any Non-Evil Alignment
+LNXCE = Any Evil Alignment
 
 ### Speed
 stype = 

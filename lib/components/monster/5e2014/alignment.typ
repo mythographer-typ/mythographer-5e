@@ -18,44 +18,58 @@
 
 /// Translation is thought so that it looks up to the form of `Alignment` in the specified language.
 
-#let render-alignment(self, body) = {
-  if not body.keys().contains("alignment") { return }
-  if body.alignment == none { return }
+#let law-order = ("L", "NX", "C")
+#let moral-order = ("G", "NY", "E")
 
-  // check for any-good alignment
-  // so we can just check if it has all of them
+#let render-alignment(self, body) = {
+  let raw = body.at("alignment", default: none)
+  if raw == none { return }
+
   let alignment = []
 
-  // alignmentPrefix (e.g. Typically) "alignmentPrefix": "Typically ",
-  // Any is defined by: having "L", "NX", "C", "NY", and the type (evil or good) "E"
-  //
-  if "L" in body.alignment and "NX" in body.alignment and "C" in body.alignment and "NY" in body.alignment {
-    if "E" in body.alignment {
-      alignment = transl("LNXCNYE")
-    } else if "G" in body.alignment {
-      alignment = transl("LNXCNYG")
-    } else {
-      panic("any alignment can be set to either `Any good alignment` or `And non-good Alignment`")
-    }
-  } else if (
-    "NX" in body.alignment
-      and "C" in body.alignment
-      and "G" in body.alignment
-      and "NY" in body.alignment
-      and "E" in body.alignment
-  ) {
-    alignment = [#transl("N")]
-  } else if body.alignment.len() == 2 {
-    alignment = [#transl(body.alignment.at(0)) #transl(body.alignment.at(1))]
-  } else if body.alignment.len() == 1 {
-    alignment = [#transl(body.alignment.at(0))]
+  if "U" in raw {
+    alignment = transl("U")
+  } else if "A" in raw {
+    alignment = transl("A")
   } else {
-    panic("Alignment not supported yet!")
+    // split into the two axes
+    let law = law-order.filter(t => t in raw)
+    let moral = moral-order.filter(t => t in raw)
+
+    // legacy "N": neutral on whichever axis is missing (or both)
+    if "N" in raw {
+      if law.len() == 0 and moral.len() > 0 { law = ("NX",) } else if moral.len() == 0 and law.len() > 0 {
+        moral = ("NY",)
+      } else if law.len() == 0 and moral.len() == 0 {
+        law = ("NX",)
+        moral = ("NY",)
+      }
+    }
+
+    // an empty axis means "unrestricted"
+    if law.len() == 0 { law = law-order }
+    if moral.len() == 0 { moral = moral-order }
+
+    let law-full = law.len() == 3
+    let moral-full = moral.len() == 3
+
+    if law-full and moral-full {
+      alignment = transl("A")
+    } else if law.len() == 1 and moral.len() == 1 {
+      if law.at(0) == "NX" and moral.at(0) == "NY" {
+        alignment = transl("N") // true neutral
+      } else {
+        alignment = [#transl(law.at(0)) #transl(moral.at(0))]
+      }
+    } else {
+      // generic "any ..." case: key is the concatenated codes,
+      // e.g. "CGNYE" = any chaotic, "LNXCNYE" = any non-good
+      alignment = transl(law.join() + moral.join())
+    }
   }
 
-  if body.keys().contains("alignmentPrefix") {
+  if "alignmentPrefix" in body {
     return [#body.alignmentPrefix #alignment]
   }
-
   return alignment
 }
