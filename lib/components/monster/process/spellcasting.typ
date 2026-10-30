@@ -160,6 +160,7 @@
 #let entry-spellcasting-level1to9(body) = {
   let spells = ()
   let keys = body.keys()
+
   for (name, value) in body {
     let iter-spells = emph(value.spells.join(", "))
 
@@ -168,11 +169,11 @@
       spells.push([#transl("cantrips"): #iter-spells])
     } else {
       // Spells
-      if keys.contains("lower") and keys.contains("slots") {
-        panic("At the moment i have no idea on how this should be showd :(")
-      } else if keys.contains("slots") {
+      if value.keys().contains("lower") and value.keys().contains("slots") {
+        panic("At the moment i have no idea on how this should be shown :(")
+      } else if value.keys().contains("slots") {
         spells.push(
-          [#transl("level", n: (name)) (#value.slots #transl("slot", t: slots)): #iter-spells],
+          [#transl("level", n: (name)) (#value.slots #transl("slot", t: "slots")): #iter-spells],
         )
       } else {
         spells.push([#transl("level", n: (name)): #iter-spells])
