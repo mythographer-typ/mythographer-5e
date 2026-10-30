@@ -22,8 +22,8 @@
 }
 
 #let xp-to-challenge(body) = {
-  assert(enum.xp-to-level.keys().contains(body))
-  return [#enum.xp-to-level.at(body)]
+  assert(enum.xp-to-level.keys().contains(str(body)))
+  return [#enum.xp-to-level.at(str(body))]
 }
 
 
@@ -39,7 +39,6 @@
   if body.cr == none { return }
 
   let xp = none
-  let prof = none
 
   if type(body.cr) == str {
     (proc: [#body.cr (#challenge-to-xp(body.cr) #transl("xp"))], amount: 1)
@@ -47,8 +46,7 @@
     let processed = ()
 
     if body.cr.keys().contains("xp") {
-      xp = body.cr.xp
-      processed.push([#body.cr (#challenge-to-xp(xp) #transl("xp"))])
+      processed.push([#body.cr.cr (#body.cr.xp #transl("xp"))])
     } else {
       processed.push([#body.cr.cr (#challenge-to-xp(body.cr.cr) #transl("xp"))])
     }
