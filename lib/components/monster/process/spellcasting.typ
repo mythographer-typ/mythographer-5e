@@ -130,7 +130,7 @@
     }
     if key in spellcasting-frequency-keys-e {
       let key = transl("spell-frequency", t: key)
-      let each = transl(each)
+      let each = transl("each")
       spells.push([#key/#each: #array-of-spell(value)#linebreak()])
     }
   }
