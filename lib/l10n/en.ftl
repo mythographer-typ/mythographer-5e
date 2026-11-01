@@ -209,8 +209,6 @@ msize =
        *[other] Unknown
     }
 
-
-
 ### type
 mtype =
     { $mtype ->
@@ -267,16 +265,11 @@ stype =
       *[other] unknown
    }
 
-
-
 ### Misc
 dc = CD
 armor-class = Armor Class
 hit-points = Hit Points
 speed = Speed
-
-
-
 
 ### Ability Score
 str = { $t ->
@@ -312,7 +305,6 @@ rw = Ranged Weapon Attack
 mwrw = Melee or Ranged Weapon Attack
 
 recharge = Recharge
-
 
 ### TRAITS
 saving-throw = { $t ->
@@ -353,8 +345,6 @@ senses = { $t ->
    [passive] passive perception
 }
 
-
- 
 languages = { $t ->
    *[sing] Language
    [plur] Languages
@@ -390,7 +380,6 @@ languages = { $t ->
    [U] Undercommon
 }
 
-
 damage-type = { $t ->
    [acid] acid
    [bludgeoning] bludgeoning
@@ -407,8 +396,6 @@ damage-type = { $t ->
    [thunder] thunder
    *[other] other damage
 }
-
-
 
 vulnerable = { $t ->
   *[sing] Damage Vulnerability
@@ -451,7 +438,6 @@ condition-immune = { $t ->
 }
 
 in-lair = or {$experience} XP in Lair
-in-laira = or {$experience} XP in Lair
 
 xp = XP
 cr = CR
@@ -468,8 +454,6 @@ legendary = Legendary Actions
 legendary-header = Legendary Action Uses: {$amount}. Immediately after another creature's turn, {$shortName} can expend a use to take one of the following actions. {$shortName} regains all expended uses at the start of each of its turns.
 
 legendary-header-lair = Legendary Action Uses: {$amount} ({$lairAmount} in Lair). Immediately after another creature's turn, {$shortName} can expend a use to take one of the following actions. {$shortName} regains all expended uses at the start of each of its turns.
-
-
 
 attack = Attack
 to-hit = to hit
@@ -495,6 +479,28 @@ slot = { $t ->
 level = { $n ->
    *[other] { $n }° level
 }
+
+spell-type = { $t ->
+   [constant] constant
+   [will] At will
+   [ritual] Ritual
+   *[other] Translation Error in spell type
+}
+
+spell-frequency = { $t ->
+   [rest] rest
+   [restLong] restLong
+   [daily] daily
+   [weekly] weekly
+   [monthly] monthly
+   [yearly] yearly
+   [charges] charges
+   [recharge] recharge
+   [legendary] legendary
+   *[other] Translation Error in spell frequency
+}
+
+each = each
 
 ## Bonus Action
 bonus-actions = Bonus Actions
