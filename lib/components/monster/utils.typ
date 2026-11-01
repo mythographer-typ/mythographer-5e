@@ -1,5 +1,6 @@
 #import "../../external.typ": transl
-#import "@preview/t4t:0.4.2": get // use get.text[stuff]
+#import "../../external.typ": get
+// #import "@preview/t4t:0.4.2": get // use get.text[stuff]
 
 #let capitalize(body) = {
   [#upper(body.slice(0, 1))#body.slice(1)]

@@ -21,230 +21,122 @@ prerequisite = Prerequisite
 
 ###############################################
 ##### Monster
+## Contract (every locale must provide these messages):
+##   gender   ($mtype)                            -> grammar token for the noun, passed back as $gender
+##   creature ($mtype, $msize, $count, $gender)  -> "<size> <type>"
+##   swarm    ($msize, $count, $gender, $inner)  -> "<size> swarm of <inner>"
+##     $inner is a creature phrase the code already built (plural, with the swarm's creature size)
+##     the code calls gender/swarm with mtype "swarm" and count 1
+## Helper messages (size, type, swarm-noun) may be restructured freely.
 
-### Size
-# F: Fine,  D: Diminutive,  T: Tiny,  S: Small,  M: Medium,  L: Large,  H: Huge,  G: Gargantuan,  C: Colossal,  V: Varies.
-msize =
+# English has no grammatical gender.
+gender = n
+
+## Size: F D T S M L H G C V
+size =
     { $msize ->
-         [F]
-            { $mtype ->
-               [aberration] Fine
-               [beast] Fine
-               [celestial] Fine
-               [construct] Fine
-               [dragon] Fine
-               [elemental] Fine
-               [fey] Fine
-               [fiend] Fine
-               [giant] Fine
-               [humanoid] Fine
-               [monstrosity] Fine
-               [ooze] Fine
-               [plant] Fine
-               [undead] Fine
-               [swarm] Fine
-               *[other] Fine
-            }
-         [D]
-            { $mtype ->
-               [aberration] Diminutive
-               [beast] Diminutive
-               [celestial] Diminutive
-               [construct] Diminutive
-               [dragon] Diminutive
-               [elemental] Diminutive
-               [fey] Diminutive
-               [fiend] Diminutive
-               [giant] Diminutive
-               [humanoid] Diminutive
-               [monstrosity] Diminutive
-               [ooze] Diminutive
-               [plant] Diminutive
-               [undead] Diminutive
-               [swarm] Diminutive
-               *[other] Diminutive
-            }
-         [T]
-            { $mtype ->
-               [aberration] Tiny
-               [beast] Tiny
-               [celestial] Tiny
-               [construct] Tiny
-               [dragon] Tiny
-               [elemental] Tiny
-               [fey] Tiny
-               [fiend] Tiny
-               [giant] Tiny
-               [humanoid] Tiny
-               [monstrosity] Tiny
-               [ooze] Tiny
-               [plant] Tiny
-               [undead] Tiny
-               [swarm] Medium
-               *[other] Tiny
-            }
-         [S]
-            { $mtype ->
-               [aberration] Small
-               [beast] Small
-               [celestial] Small
-               [construct] Small
-               [dragon] Small
-               [elemental] Small
-               [fey] Small
-               [fiend] Small
-               [giant] Small
-               [humanoid] Small
-               [monstrosity] Small
-               [ooze] Small
-               [plant] Small
-               [undead] Small
-               [swarm] Medium
-               *[other] Small
-            }
-         [M]
-            { $mtype ->
-               [aberration] Medium
-               [beast] Medium
-               [celestial] Medium
-               [construct] Medium
-               [dragon] Medium
-               [elemental] Medium
-               [fey] Medium
-               [fiend] Medium
-               [giant] Medium
-               [humanoid] Medium
-               [monstrosity] Medium
-               [ooze] Medium
-               [plant] Medium
-               [undead] Medium
-               [swarm] Medium
-               *[other] Medium
-            }
-         [L]
-            { $mtype ->
-               [aberration] Large
-               [beast] Large
-               [celestial] Large
-               [construct] Large
-               [dragon] Large
-               [elemental] Large
-               [fey] Large
-               [fiend] Large
-               [giant] Large
-               [humanoid] Large
-               [monstrosity] Large
-               [ooze] Large 
-               [plant] Large
-               [undead] Large
-               [swarm] Large
-               *[other] Large
-            }
-         [H]
-            { $mtype ->
-               [aberration] Huge
-               [beast] Huge
-               [celestial] Huge
-               [construct] Huge
-               [dragon] Huge
-               [elemental] Huge
-               [fey] Huge
-               [fiend] Huge
-               [giant] Huge
-               [humanoid] Huge
-               [monstrosity] Huge
-               [ooze] Huge
-               [plant] Huge
-               [undead] Huge
-               [swarm] Huge
-               *[other] Huge
-            }
-         [G]
-            { $mtype ->
-               [aberration] Gargantuan
-               [beast] Gargantuan
-               [celestial] Mastodontico
-               [construct] Mastodontico
-               [dragon] Mastodontico
-               [elemental] Mastodontico
-               [fey] Mastodontico
-               [fiend] Mastodontico
-               [giant] Mastodontico
-               [humanoid] Mastodontico
-               [monstrosity] Gargantuan
-               [ooze] Gargantuan
-               [plant] Gargantuan
-               [undead] Mastodontico
-               [Swarm] Mastodontico
-               *[other] Mastodontico
-            }
-         [C]
-            { $mtype ->
-               [aberration] Colossal
-               [beast] Colossal
-               [celestial] Colossal
-               [construct] Colossal
-               [dragon] Colossal
-               [elemental] Colossal
-               [fey] Colossal
-               [fiend] Colossal
-               [giant] Colossal
-               [humanoid] Colossal
-               [monstrosity] Colossal
-               [ooze] Colossal
-               [plant] Colossal
-               [undead] Colossal
-               [swarm] Colossal
-               *[other] Colossal
-            }  
-         [V]
-            { $mtype ->
-               [aberration] Varies
-               [beast] Varies
-               [celestial] Varies
-               [construct] Varies
-               [dragon] Varies
-               [elemental] Varies
-               [fey] Varies
-               [fiend] Varies
-               [giant] Varies
-               [humanoid] Varies
-               [monstrosity] Varies
-               [ooze] Varies
-               [plant] Varies
-               [undead] Varies
-               [swarm] Varies
-               *[other] Varies
-            }
+        [F] Fine
+        [D] Diminutive
+        [T] Tiny
+        [S] Small
+        [M] Medium
+        [L] Large
+        [H] Huge
+        [G] Gargantuan
+        [C] Colossal
+        [V] Varies
        *[other] Unknown
     }
 
-### type
-mtype =
+## Type noun, singular/plural via $count
+type =
     { $mtype ->
-         [aberration] Aberration
-         [beast] Beast
-         [celestial] Celestial
-         [construct] Construct
-         [dragon] Dragon
-         [elemental] Elemental
-         [fey] Fay
-         [fiend] Fiend
-         [giant] Giant
-         [humanoid] Humanoid
-         [monstrosity] Monstrosity
-         [ooze] Ooze
-         [plant] Plany
-         [undead] Undead
-         [swarm] Swarm
-         *[other] Creature
+        [aberration]
+            { $count ->
+                [one] aberration
+               *[other] aberrations
+            }
+        [beast]
+            { $count ->
+                [one] beast
+               *[other] beasts
+            }
+        [celestial]
+            { $count ->
+                [one] celestial
+               *[other] celestials
+            }
+        [construct]
+            { $count ->
+                [one] construct
+               *[other] constructs
+            }
+        [dragon]
+            { $count ->
+                [one] dragon
+               *[other] dragons
+            }
+        [elemental]
+            { $count ->
+                [one] elemental
+               *[other] elementals
+            }
+        [fey]
+            { $count ->
+                [one] fey
+               *[other] fey
+            }
+        [fiend]
+            { $count ->
+                [one] fiend
+               *[other] fiends
+            }
+        [giant]
+            { $count ->
+                [one] giant
+               *[other] giants
+            }
+        [humanoid]
+            { $count ->
+                [one] humanoid
+               *[other] humanoids
+            }
+        [monstrosity]
+            { $count ->
+                [one] monstrosity
+               *[other] monstrosities
+            }
+        [ooze]
+            { $count ->
+                [one] ooze
+               *[other] oozes
+            }
+        [plant]
+            { $count ->
+                [one] plant
+               *[other] plants
+            }
+        [undead]
+            { $count ->
+                [one] undead
+               *[other] undead
+            }
+       *[other]
+            { $count ->
+                [one] creature
+               *[other] creatures
+            }
     }
 
-creature-description =
-     { mtype } { msize }
+swarm-noun =
+    { $count ->
+        [one] swarm
+       *[other] swarms
+    }
 
-swarm-description = 
-      {msize} {mtype} of
+## Phrases: word order is decided here
+creature = { size } { type }
+swarm = { size } { swarm-noun } of { $inner }
 
 ### Alignment
 L = Legal

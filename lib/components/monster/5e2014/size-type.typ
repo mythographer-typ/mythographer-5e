@@ -41,11 +41,12 @@
 // string:enum > "aberration", "beast", "celestial", "construct", "dragon", "elemental", "fey", "fiend", "giant", "humanoid", "monstrosity", "ooze", "plant", "undead"
 
 
-#import "../../../external.typ": transl
+#import "../../../external.typ": get, transl
 #import "../utils.typ": capitalize
+#import "../../../utils/utils.typ": to-string
 
 
-#let render-size-type(self, body) = {
+#let render-size-type(self, body) = context {
   if (not body.keys().contains("size")) { return }
   if (not body.keys().contains("type")) { return }
 
@@ -56,17 +57,72 @@
     mtype = body.type.type
   }
 
-  let out = none
+  let beast_size = none
   if body.size.len() > 1 {
-    out = transl("creature-description", msize: body.size.last(), mtype: mtype)
+    // beast_size = transl("creature-description", msize: body.size.last(), mtype: mtype)
+    best_size = transl("creature", mtype: mtype, msize: body.size.last(), count: "one")
     let body1 = body
     body1.pop()
-    out = [#out #body1.map(size => get.text(transl("msize", msize: size)))]
+    beast_size = [#beast_size #body1.map(size => get.text(transl("msize", msize: size)))]
   } else {
-    out = transl("creature-description", msize: body.size.last(), mtype: mtype)
+    // beast_size = transl("creature-description", msize: body.size.last(), mtype: mtype)
+    beast_size = transl("creature", mtype: mtype, msize: body.size.last(), count: "one")
   }
 
-  if (type(body.type) == dictionary and (body.type.tags != none or body.type.tags.len() > 0)) {
+  if (type(body.type) == dictionary) {
+    if body.type.keys().contains("tags") {
+      // dict
+      /// tags
+      if type(body.type.tags) == array {
+        let tags = ()
+        for entry in body.type.tags {
+          if type(entry) == str {
+            tags.push([#capitalize(entry)])
+          } else {
+            let tag = entry.tag
+            let prefix = ""
+
+            if entry.keys().contains("prefix") {
+              prefix = entry.prefix
+            }
+            if entry.keys().contains("prefixHidden") and entry.prefixHidden == true {
+              // TODO: discover what's covered and translate...
+              // Maybe SRD races and a "failsafe" translation for the rest
+              tags.push([#capitalize(tag)])
+            } else {
+              tags.push([#capitalize(prefix) #capitalize(tag)])
+            }
+          }
+        }
+        tags = tags.join(", ")
+        // TODO: check how to translate :)
+        // 114,115
+        return [#beast_size (#tags)]
+      }
+
+      // TODO: idk which idxes, check translation
+      return [#beast_size (#body.type.tags.map(tags => (capitalize(tags))).join(", "))]
+    }
+
+    if body.type.keys().contains("swarmSize") {
+      context {
+        let inner = transl(
+          "creature",
+          mtype: mtype,
+          msize: body.type.swarmSize,
+          gender: transl("gender", mtype: mtype, mode: str),
+          mode: str,
+        )
+
+        return transl(
+          "swarm",
+          msize: body.size.last(),
+          count: "one",
+          gender: transl("gender", mtype: "swarm", mode: str),
+          inner: inner,
+        )
+      }
+    }
     // dict
     //    type: str
     //    tags: list
@@ -75,8 +131,7 @@
     //    TODO: sidekickType --- NOT SUPPORTED YET
     //    TODO: sidekickTags --- NOT SUPPORTED YET
     //    TODO: sidekickHidden --- NOT SUPPORTED YET
-    return [#out (#body.type.tags.map(tags => (capitalize(tags))).join(", "))]
   } else {
-    return out
+    return beast_size
   }
 }
