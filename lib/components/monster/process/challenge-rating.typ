@@ -53,7 +53,7 @@
 
     if body.cr.keys().contains("lair") {
       xp = get.text([#body.cr.lair (#challenge-to-xp(body.cr.lair))])
-      processed.push([#transl("in-laira", experience: xp)])
+      processed.push([#transl("in-lair", experience: xp)])
     }
 
     if body.cr.keys().contains("xpLair") {
