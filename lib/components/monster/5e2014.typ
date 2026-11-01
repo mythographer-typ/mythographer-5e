@@ -59,6 +59,11 @@
     call-if-fn(self.heading.level-4.text-style, it.body) + "."
   }
 
+  show heading.where(level: 5): it => {
+    set text(..self.heading.level-5.text)
+    h(1em) + call-if-fn(self.heading.level-5.text-style, it.body) + ":"
+  }
+
   // Add short name as it's needed e.g. in `legendary action headers`
   let body = compute-shortname(body)
   [

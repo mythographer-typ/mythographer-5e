@@ -397,6 +397,14 @@
           ),
           text-style: none,
         ),
+        level-5: (
+          text: (
+            fill: colors.darkest,
+            weight: font-weight.bold,
+            size: font-size.small,
+          ),
+          text-style: none,
+        ),
       ),
 
       bar: (fill: colors.rulered),
