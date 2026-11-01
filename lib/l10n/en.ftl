@@ -42,6 +42,7 @@ msize =
                [ooze] Fine
                [plant] Fine
                [undead] Fine
+               [swarm] Fine
                *[other] Fine
             }
          [D]
@@ -60,6 +61,7 @@ msize =
                [ooze] Diminutive
                [plant] Diminutive
                [undead] Diminutive
+               [swarm] Diminutive
                *[other] Diminutive
             }
          [T]
@@ -78,6 +80,7 @@ msize =
                [ooze] Tiny
                [plant] Tiny
                [undead] Tiny
+               [swarm] Medium
                *[other] Tiny
             }
          [S]
@@ -96,6 +99,7 @@ msize =
                [ooze] Small
                [plant] Small
                [undead] Small
+               [swarm] Medium
                *[other] Small
             }
          [M]
@@ -114,6 +118,7 @@ msize =
                [ooze] Medium
                [plant] Medium
                [undead] Medium
+               [swarm] Medium
                *[other] Medium
             }
          [L]
@@ -132,6 +137,7 @@ msize =
                [ooze] Large 
                [plant] Large
                [undead] Large
+               [swarm] Large
                *[other] Large
             }
          [H]
@@ -150,6 +156,7 @@ msize =
                [ooze] Huge
                [plant] Huge
                [undead] Huge
+               [swarm] Huge
                *[other] Huge
             }
          [G]
@@ -168,6 +175,7 @@ msize =
                [ooze] Gargantuan
                [plant] Gargantuan
                [undead] Mastodontico
+               [Swarm] Mastodontico
                *[other] Mastodontico
             }
          [C]
@@ -186,6 +194,7 @@ msize =
                [ooze] Colossal
                [plant] Colossal
                [undead] Colossal
+               [swarm] Colossal
                *[other] Colossal
             }  
          [V]
@@ -204,6 +213,7 @@ msize =
                [ooze] Varies
                [plant] Varies
                [undead] Varies
+               [swarm] Varies
                *[other] Varies
             }
        *[other] Unknown
@@ -226,12 +236,15 @@ mtype =
          [ooze] Ooze
          [plant] Plany
          [undead] Undead
+         [swarm] Swarm
          *[other] Creature
     }
 
 creature-description =
      { mtype } { msize }
 
+swarm-description = 
+      {msize} {mtype} of
 
 ### Alignment
 L = Legal
