@@ -82,7 +82,8 @@
 }
 
 #let show-base-array-of-spell(key, body) = {
-  return [#key: #array-of-spell(body)#linebreak()]
+  let key = transl("spell-type", t: key)
+  return [#strong(key): #array-of-spell(body)#linebreak()]
 }
 
 // entrySpellcasting_frequency
@@ -124,10 +125,13 @@
   let spells = ()
   for (key, value) in body.pairs() {
     if key in spellcasting-frequency-keys {
+      let key = transl("spell-frequency", t: key)
       spells.push([#key: #array-of-spell(value)#linebreak()])
     }
     if key in spellcasting-frequency-keys-e {
-      spells.push([#key/each: #array-of-spell(value)#linebreak()])
+      let key = transl("spell-frequency", t: key)
+      let each = transl(each)
+      spells.push([#key/#each: #array-of-spell(value)#linebreak()])
     }
   }
 
@@ -147,9 +151,10 @@
   }
 
   // Process
+  let translated-recharge = transl("spell-frequency", t: recharge)
   let spells = ()
   for (key, value) in body.pairs() {
-    spells.push([Recharge #key: #array-of-spell(value)#linebreak()])
+    spells.push([#translated-recharge #key: #array-of-spell(value)#linebreak()])
   }
 
   return [#spells.join(" ")#linebreak()]
@@ -166,14 +171,14 @@
 
     if name == "0" {
       // Cantrips
-      spells.push([#transl("cantrips"): #iter-spells])
+      spells.push([#strong[#transl("cantrips"):] #iter-spells])
     } else {
       // Spells
       if value.keys().contains("lower") and value.keys().contains("slots") {
         panic("At the moment i have no idea on how this should be shown :(")
       } else if value.keys().contains("slots") {
         spells.push(
-          [#transl("level", n: (name)) (#value.slots #transl("slot", t: "slots")): #iter-spells],
+          [#strong[#transl("level", n: (name)) (#value.slots #transl("slot", t: "slots"))]: #iter-spells],
         )
       } else {
         spells.push([#transl("level", n: (name)): #iter-spells])
@@ -226,7 +231,6 @@
     // spells
     if keys.contains("spells") { current-spell.push(entry-spellcasting-level1to9(spell-block.spells)) }
 
-    // current-spell.push([#v(-1em)])
     current-spell.push([#v(0pt)])
     current-spell = current-spell.join("")
     spells.push(current-spell)
