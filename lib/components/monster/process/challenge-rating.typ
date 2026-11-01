@@ -61,7 +61,8 @@
     }
 
     if body.cr.keys().contains("coven") {
-      panic("Covens not supported at the moment")
+      let coven_xp = get.text([#challenge-to-xp(body.cr.coven)])
+      processed.push[#transl("coven", cr: body.cr.coven, exp: coven_xp)]
     }
     return (proc: processed.join(" "), amount: 1)
   }

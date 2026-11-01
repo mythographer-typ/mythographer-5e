@@ -344,9 +344,11 @@ condition-immune = { $t ->
 
 in-lair = or {$experience} XP in Lair
 
+# 3 XP 700, or 1800 when part of a coven
+coven = or {$cr} ({$exp} XP) when part of a coven. 
 xp = XP
 cr = CR
-proficiency-bonus = Proficiency Bonus
+proficiency-bonus = PB
 
 
 ################################################
